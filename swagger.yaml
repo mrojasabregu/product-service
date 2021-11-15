@@ -1,0 +1,235 @@
+swagger: "2.0"
+info:
+  description: "Control inventary products"
+  version: "1.0.0"
+  title: "Products"
+host: "localhost:8080"
+basePath: "/"
+tags:
+- name: "product"
+  description: ""
+schemes:
+- "http"
+
+paths:
+  /products:
+    get:
+      tags:
+      - "Product"
+      summary: "Returns all products"
+      operationId: "getProducts"
+      produces:
+      - "application/json"
+      responses: 
+        200:
+          description: "Ok"
+          schema: 
+            $ref: "#/definitions/ListOfProducts"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorBadRequestResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ErrorNotFoundResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorInternalServerResponse"
+            
+  /product:
+    post:
+      tags:
+      - "Product"
+      summary: "Create an Product"
+      operationId: "CreateProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "product"
+        description: "Create a new Product"
+        required: true
+        schema:
+          $ref: "#/definitions/ProductRequest"
+      responses:
+        200:
+          description: "created"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorBadRequestResponse"
+        404:
+          description: "Not Found"
+          schema:
+            $ref: "#/definitions/ErrorNotFoundResponse"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ErrorInternalServerResponse"
+            
+            
+  
+          
+  /product/{sku}/stock/reserve:
+    put:
+      tags:
+      - "product"
+      summary: "Update an existing product"
+      description: ""
+      operationId: "updateProduct"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sku"
+        in: "path"
+        description: "reserve that need to be update"
+        required: true
+        type: "number"
+      - in: "body"
+        name: "body"
+        description: "Product object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/ProductResponse"
+      responses:
+        "200":
+          description: "succesful operation"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Product not found"
+        "405":
+          description: "Validation exception"
+        
+            
+definitions:
+  ProductRequest:
+    type: "object"
+    required:
+      - "productId"
+      - "sku"
+      - "name"
+      - "description"
+      - "keywords"
+      - "price"
+      - "imgUrl"
+      - "unitAvailable"
+      - "weight"
+      - "category"
+      - "brand"
+    properties: 
+      productId:
+        type: "number"
+        example: 1
+      sku:
+        type: "number"
+        example: 1
+      name:
+        type: "string"
+        example: "Notebook Bangho MAX L4 i1"
+      description:
+        type: "string"
+        example: "Intel Celeron N4000 4GB RAM 120GB SSD, Intel UHD Graphics 600 1366x768px Windows 10 Home"
+      keywords:
+        type: "string"
+        example: "computer laptop 4GB"
+      price:
+        type: "number"
+        example: 3000
+      imgUrl:
+        type: "string"
+        example: "/url"
+      unitAvailable:
+        type: "number"
+        example: 35
+      weight:
+        type: "number"
+        example: 55
+      category:
+        type: "string"
+        example: "technology"
+      brand:
+        type: "string"
+        example: "Bangho"
+  
+  ProductResponse:
+    type: "object"
+    properties: 
+      productId:
+        type: "number"
+      sku:
+        type: "number"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      keywords:
+        type: "string"
+      price:
+        type: "number"
+      imgUrl:
+        type: "string"
+      unitAvailable:
+        type: "number"
+      weight:
+        type: "number"
+      category:
+        type: "string"
+      brand:
+        type: "number"
+        
+  ListOfProducts:
+    type: "array"
+    items:
+      $ref: "#/definitions/ProductResponse"
+      
+  ErrorNotFoundResponse:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+        example: "GENERIC_NOT_FOUND"
+      message:
+        type: "string"
+        example: "Resource Not Found"
+      result:
+        type: "string"
+        example: "GENERIC_NOT_FOUND"
+        
+  ErrorBadRequestResponse:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+        example: "GENERIC_BAD_REQUEST"
+      message:
+        type: "string"
+        example: "Invalid Request"
+      result:
+        type: "string"
+        example: "GENERIC_NOT_FOUND"
+        
+  ErrorInternalServerResponse:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+        example: "GENERIC_INTERNAL_SERVER_ERROR"
+      message:
+        type: "string"
+        example: "Internal Server Error"
+      result:
+        type: "string"
+        example: "GENERIC_INTERNAL_SERVER_ERROR" 
+  
+  
