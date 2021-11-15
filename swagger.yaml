@@ -6,7 +6,7 @@ info:
 host: "localhost:8080"
 basePath: "/"
 tags:
-- name: "product"
+- name: "Product"
   description: ""
 schemes:
 - "http"
@@ -20,6 +20,12 @@ paths:
       operationId: "getProducts"
       produces:
       - "application/json"
+      parameters:
+        - name: "keyword"
+          in: "query"
+          description: "Status values that need to be considered for filter"
+          required: false
+          type: "string"
       responses: 
         200:
           description: "Ok"
@@ -73,15 +79,14 @@ paths:
           schema:
             $ref: "#/definitions/ErrorInternalServerResponse"
             
-            
-  
+        
           
   /product/{sku}/stock/reserve:
     put:
       tags:
-      - "product"
+      - "Product"
       summary: "Update an existing product"
-      description: ""
+      description: "Update an existing product"
       operationId: "updateProduct"
       consumes:
       - "application/json"
@@ -110,13 +115,106 @@ paths:
           description: "Product not found"
         "405":
           description: "Validation exception"
+          
+  /product/{sku}:
+    get:
+      tags:
+      - "Product"
+      summary: "Find by sku"
+      description: "Find by sku"
+      operationId: "getProductSku"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sku"
+        in: "path"
+        description: "Product sku number"
+        required: true
+        type: number
         
-            
+      responses:
+        "200":
+          description: "succesful operation"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        "400": 
+          description: "Invalid SKU supplied"
+        "404":
+          description: "Product not found"
+    put:
+      tags:
+      - "Product"
+      summary: "Update by sku"
+      description: "Update by sku"
+      operationId: "putProductSku"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sku"
+        in: "path"
+        description: "Product sku number"
+        required: true
+        type: "number"
+      - in: "body"
+        name: "body"
+        description: "Updated sku product"
+        required: true
+        schema:
+          $ref: "#/definitions/ProductResponse"
+      responses:
+        "200":
+          description: "succesful operation"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+        "400":
+          description: "Invalid user supplied"
+        "404":
+          description: "User not found"
+    delete:
+      tags:
+        - "Product"
+      summary: "Delete a product"
+      description: "Delete a product"
+      operationId: "deleteProduct"
+      produces:
+        - "application.json"
+      parameters:
+      - name: "sku"
+        in: "path"
+        required: true
+        type: "number"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Order not found"
+        
+  /product/bulk:
+    post:
+      tags:
+      - "product"
+      summary: "Create a lot products"
+      description: "Create a lot products"
+      operationId: "postProductBulk"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of products"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/ProductResponse"
+      responses:
+        default:
+          description: "successful operation"    
+           
 definitions:
   ProductRequest:
     type: "object"
     required:
-      - "productId"
       - "sku"
       - "name"
       - "description"
@@ -127,10 +225,8 @@ definitions:
       - "weight"
       - "category"
       - "brand"
+      - "uom"
     properties: 
-      productId:
-        type: "number"
-        example: 1
       sku:
         type: "number"
         example: 1
@@ -141,10 +237,12 @@ definitions:
         type: "string"
         example: "Intel Celeron N4000 4GB RAM 120GB SSD, Intel UHD Graphics 600 1366x768px Windows 10 Home"
       keywords:
-        type: "string"
-        example: "computer laptop 4GB"
+        type: "array"
+        items:
+          type: string
       price:
         type: "number"
+        format: "float"
         example: 3000
       imgUrl:
         type: "string"
@@ -153,14 +251,16 @@ definitions:
         type: "number"
         example: 35
       weight:
-        type: "number"
-        example: 55
+        type: "string"
+        format: "float"
+        example: "55 kg"
       category:
         type: "string"
         example: "technology"
       brand:
         type: "string"
         example: "Bangho"
+  
   
   ProductResponse:
     type: "object"
@@ -174,19 +274,24 @@ definitions:
       description:
         type: "string"
       keywords:
-        type: "string"
+        type: "array"
+        items:
+          type: string
       price:
         type: "number"
+        format: "float"
       imgUrl:
         type: "string"
       unitAvailable:
         type: "number"
       weight:
         type: "number"
+        format: "float"
       category:
         type: "string"
       brand:
         type: "number"
+      
         
   ListOfProducts:
     type: "array"
