@@ -228,8 +228,8 @@ definitions:
       - "uom"
     properties: 
       sku:
-        type: "number"
-        example: 1
+        type: "string"
+        example: "1234EA8378I2"
       name:
         type: "string"
         example: "Notebook Bangho MAX L4 i1"
@@ -268,7 +268,7 @@ definitions:
       productId:
         type: "number"
       sku:
-        type: "number"
+        type: "string"
       name:
         type: "string"
       description:
@@ -290,7 +290,7 @@ definitions:
       category:
         type: "string"
       brand:
-        type: "number"
+        type: "string"
       
         
   ListOfProducts:
