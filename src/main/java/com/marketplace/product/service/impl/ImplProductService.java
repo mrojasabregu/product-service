@@ -81,15 +81,15 @@ public class ImplProductService implements ProductService {
 
     @Override
     public Product putProductSku(ProductRequest request, String sku) {
-        Product artist = null;
+        Product product = null;
         if (productRepository.findBySkuProduct(sku) != null) {
-            artist = productMapper.apply(request);
-            productRepository.save(artist);
+            product = productMapper.apply(request);
+            productRepository.save(product);
         } else {
             log.error("El producto NO existe");
             throw new ProductNotExistException("El producto NO existe");
         }
-        return artist;
+        return product;
     }
 
     @Override
