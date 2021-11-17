@@ -1,35 +1,18 @@
 package com.marketplace.product.service.impl;
-
-
 import com.marketplace.product.controller.request.ProductRequest;
-
 import com.marketplace.product.domain.mapper.ProductMapper;
 import com.marketplace.product.domain.model.Product;
-
 import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-
-import com.marketplace.product.domain.model.Product;
-
-import com.marketplace.product.domain.mapper.ProductMapper;
 import com.marketplace.product.exception.ProductExistException;
-import com.marketplace.product.repositories.ProductRepository;
-import com.marketplace.product.service.ProductService;
-import lombok.extern.slf4j.Slf4j;
-
-
-import com.marketplace.product.repositories.ProductRepository;
-import com.marketplace.product.service.ProductService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 
 @Slf4j
 @Service
@@ -42,8 +25,13 @@ public class ImplProductService implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product getProducts() {
-        return null;
+    public List<Product> getProducts() {
+        //Iterable to List
+        List<Product> products= StreamSupport
+                .stream(productRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+
+        return products;
     }
 
     @Override
@@ -76,15 +64,15 @@ public class ImplProductService implements ProductService {
 
     @Override
     public Product putProductSku(ProductRequest request, String sku) {
-        Product artist = null;
+        Product product = null;
         if (productRepository.findBySkuProduct(sku) != null) {
-            artist = productMapper.apply(request);
-            productRepository.save(artist);
+            product = productMapper.apply(request);
+            productRepository.save(product);
         } else {
             log.error("El producto NO existe");
             throw new ProductNotExistException("El producto NO existe");
         }
-        return artist;
+        return product;
     }
 
     @Override
