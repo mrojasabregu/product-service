@@ -21,7 +21,7 @@ public interface ProductService {
 
     Product getProductSku(String sku);
 
-    Product putProductSku(String sku);
+    Product putProductSku(ProductRequest request, String sku);
 
     Product deleteProduct(String sku);
 
