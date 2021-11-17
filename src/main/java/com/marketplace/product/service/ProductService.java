@@ -13,6 +13,8 @@ public interface ProductService {
 
     List<Product> getProducts();
 
+    Product cancelReserve(String sku);
+
     Product getProducts(List<String> keywords);
 
     Product CreateProduct(ProductRequest request);

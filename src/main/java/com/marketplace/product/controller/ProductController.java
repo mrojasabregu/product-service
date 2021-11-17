@@ -5,16 +5,9 @@ import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 import java.util.List;
-=======
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
->>>>>>> b7445043baf8e874c0f978f4331a9d60bf874e80
 
 
 @Slf4j
@@ -39,6 +32,8 @@ public class ProductController {
     public List<Product> getProduct() {
         return productService.getProducts();
     }
+
+
 
 
 
