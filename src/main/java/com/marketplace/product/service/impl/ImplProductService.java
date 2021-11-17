@@ -17,7 +17,10 @@ import com.marketplace.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -30,8 +33,13 @@ public class ImplProductService implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product getProducts() {
-        return null;
+    public List<Product> getProducts() {
+        //Iterable to List
+        List<Product> products= StreamSupport
+                .stream(productRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+
+        return products;
     }
 
     @Override
