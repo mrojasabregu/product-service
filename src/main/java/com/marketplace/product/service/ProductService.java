@@ -15,7 +15,7 @@ public interface ProductService {
 
     Product getProducts(List<String> keywords);
 
-    Product CreateProduct();
+    Product CreateProduct(ProductRequest request);
 
     Product updateProduct(String sku);
 
