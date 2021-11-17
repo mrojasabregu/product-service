@@ -24,6 +24,8 @@ public class ProductMapper implements Function<ProductRequest,Product>{
                 .sku(productRequest.getSku())
                 .unitAvailable(productRequest.getUnitAvailable())
                 .weight(productRequest.getWeight())
+                .amountToReserve(productRequest.getAmountToReserve())
+                .amountToCancel(productRequest.getAmountToCancel())
                 .build();
     }
 }
