@@ -103,7 +103,7 @@ paths:
         description: "Product object that needs to be added to the store"
         required: true
         schema:
-          $ref: "#/definitions/ProductCancelandReserve"
+          $ref: "#/definitions/ProductReserve"
       responses:
         "204":
           description: "succesful operation"
@@ -133,7 +133,7 @@ paths:
         description: "Product object that needs to be added to the store"
         required: true
         schema:
-          $ref: "#/definitions/ProductCancelandReserve"
+          $ref: "#/definitions/ProductCancel"
       responses:
         "204":
           description: "succesful operation"
@@ -301,12 +301,24 @@ definitions:
       brand:
         type: "string"
   
-  ProductCancelandReserve:
+  ProductReserve:
     type: "object"
     properties: 
       sku:
         type: "string"
+      unitAvailable:
+        type: "number"
       amountToReserve:
+        type: "number"
+        
+  ProductCancel:      
+    type: "object"
+    properties: 
+      sku:
+        type: "string"
+      unitAvailable:
+        type: "number"
+      amountToCancel:
         type: "number"    
         
   ListOfProducts:
