@@ -21,7 +21,7 @@ paths:
       produces:
       - "application/json"
       parameters:
-        - name: "keyword"
+        - name: "keywords"
           in: "query"
           description: "Status values that need to be considered for filter"
           required: false
@@ -82,7 +82,7 @@ paths:
         
           
   /product/{sku}/stock/reserve:
-    put:
+    post:
       tags:
       - "Product"
       summary: "Update an existing product"
@@ -98,17 +98,45 @@ paths:
         description: "reserve that need to be update"
         required: true
         type: "number"
+      - in: "body" 
+        name: "body"
+        description: "Product object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/ProductRequest"
+      responses:
+        "200":
+          description: "succesful operation"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Product not found"
+        "405":
+          description: "Validation exception"
+  
+  /product/{sku}/stock/cancelReserve:
+    post:
+      tags:
+      - "Product"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "sku"
+        in: "path"
+        description: "reserve that need to be update"
+        required: true
+        type: "number"
       - in: "body"
         name: "body"
         description: "Product object that needs to be added to the store"
         required: true
         schema:
-          $ref: "#/definitions/ProductResponse"
+          $ref: "#/definitions/ProductRequest"
       responses:
         "200":
           description: "succesful operation"
-          schema:
-            $ref: "#/definitions/ProductResponse"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -184,32 +212,13 @@ paths:
         required: true
         type: "number"
       responses:
+        "200":
+          description: "succesful operation"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Order not found"
         
-  /product/bulk:
-    post:
-      tags:
-      - "product"
-      summary: "Create a lot products"
-      description: "Create a lot products"
-      operationId: "postProductBulk"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of products"
-        required: true
-        schema:
-          type: "array"
-          items:
-            $ref: "#/definitions/ProductResponse"
-      responses:
-        default:
-          description: "successful operation"    
            
 definitions:
   ProductRequest:
@@ -228,8 +237,8 @@ definitions:
       - "uom"
     properties: 
       sku:
-        type: "number"
-        example: 1
+        type: "string"
+        example: "1234EA8378I2"
       name:
         type: "string"
         example: "Notebook Bangho MAX L4 i1"
@@ -268,7 +277,7 @@ definitions:
       productId:
         type: "number"
       sku:
-        type: "number"
+        type: "string"
       name:
         type: "string"
       description:
@@ -290,7 +299,7 @@ definitions:
       category:
         type: "string"
       brand:
-        type: "number"
+        type: "string"
       
         
   ListOfProducts:
