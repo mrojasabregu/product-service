@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductService {
 
-    Product getProducts();
+    List<Product> getProducts();
 
     Product getProducts(List<String> keywords);
 
