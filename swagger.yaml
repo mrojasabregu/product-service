@@ -188,12 +188,12 @@ paths:
         description: "Updated sku product"
         required: true
         schema:
-          $ref: "#/definitions/ProductResponse"
+          $ref: "#/definitions/ProductRequest"
       responses:
         "200":
           description: "succesful operation"
           schema:
-            $ref: "#/definitions/ProductResponse"
+            $ref: "#/definitions/ProductRequest"
         "400":
           description: "Invalid user supplied"
         "404":
@@ -306,7 +306,7 @@ definitions:
     properties: 
       sku:
         type: "string"
-      unitAvailable:
+      amountToReserve:
         type: "number"    
         
   ListOfProducts:
