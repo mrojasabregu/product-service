@@ -3,11 +3,17 @@ package com.marketplace.product.service.impl;
 
 import com.marketplace.product.controller.request.ProductRequest;
 import com.marketplace.product.domain.model.Product;
+
 import com.marketplace.product.domain.mapper.ProductMapper;
 import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+
+
+import com.marketplace.product.repositories.ProductRepository;
+import com.marketplace.product.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +69,7 @@ public class ImplProductService implements ProductService {
 
     @Override
     public Product deleteProduct(String sku) {
+        productRepository.deleteBySkuProduct(sku);
         return null;
     }
 
