@@ -18,6 +18,11 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @GetMapping(path = "/product/{sku}")
+    public Product retriveProduct(@PathVariable("sku") String sku) {
+        return productService.getProductSku(sku);
+    }
+
     @PutMapping(path = "/product/{sku}")
     public Product editProduct(@Validated @RequestBody ProductRequest request, @PathVariable("sku") String sku) {
         return productService.putProductSku(request, sku);
@@ -27,5 +32,7 @@ public class ProductController {
     public Product deleteProduct(@PathVariable("sku") String sku) {
         return productService.deleteProduct(sku);
     }
+
+
 
 }
