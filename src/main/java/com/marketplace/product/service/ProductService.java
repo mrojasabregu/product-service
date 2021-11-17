@@ -1,6 +1,7 @@
 package com.marketplace.product.service;
 
 
+import com.marketplace.product.controller.request.ProductRequest;
 import com.marketplace.product.domain.model.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ public interface ProductService {
 
     Product getProducts(List<String> keywords);
 
-    Product CreateProduct();
+    Product CreateProduct(ProductRequest request);
 
     Product updateProduct(String sku);
 
