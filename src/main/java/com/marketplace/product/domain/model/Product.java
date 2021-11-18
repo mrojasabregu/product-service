@@ -23,11 +23,7 @@ public class Product {
     private String sku;
     private String name;
     private String description;
-<<<<<<< HEAD
     //private List<String> keywords;
-=======
-   //private List<String> keywords;
->>>>>>> f39efc36c344f30d978687af7b37b35ddf5860ad
     private Float price;
     private String imgUrl;
     private Integer unitAvailable;
