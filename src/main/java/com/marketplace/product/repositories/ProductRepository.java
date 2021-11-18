@@ -11,11 +11,11 @@ public interface ProductRepository extends CrudRepository<Product,Long> {
 
     List<Product>findByName(String name);
 
-    Product findIdProduct(long productId);
+    Product findById(long productId);
 
 
-    Product deleteBySkuProduct(String sku);
+    Product deleteBySku(String sku);
 
-    Product findBySkuProduct(String sku);
+    Product findBySku(String sku);
 
 }

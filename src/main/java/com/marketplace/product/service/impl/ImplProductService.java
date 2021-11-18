@@ -43,7 +43,7 @@ public class ImplProductService implements ProductService {
     public Product CreateProduct(ProductRequest request) {
         Product product = productMapper.apply(request);
         if (request.getProductId() != null && productRepository.
-                findIdProduct(request.getProductId()) != null){
+                findById(request.getProductId()) != null){
             log.error("El producto ya exite.");
             throw new ProductExistException("El album ya existe.");
         }else{
@@ -59,13 +59,13 @@ public class ImplProductService implements ProductService {
 
     @Override
     public Product getProductSku(String sku) {
-        return productRepository.findBySkuProduct(sku);
+        return productRepository.findBySku(sku);
     }
 
     @Override
     public Product putProductSku(ProductRequest request, String sku) {
         Product product = null;
-        if (productRepository.findBySkuProduct(sku) != null) {
+        if (productRepository.findBySku(sku) != null) {
             product = productMapper.apply(request);
             productRepository.save(product);
         } else {
@@ -77,7 +77,7 @@ public class ImplProductService implements ProductService {
 
     @Override
     public Product deleteProduct(String sku) {
-        productRepository.deleteBySkuProduct(sku);
+        productRepository.deleteBySku(sku);
         return null;
     }
 
