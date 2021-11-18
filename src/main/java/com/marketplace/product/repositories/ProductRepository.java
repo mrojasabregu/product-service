@@ -9,10 +9,10 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product,Long> {
 
+
     List<Product>findByName(String name);
 
     Product findIdProduct(long productId);
-
 
     Product deleteBySkuProduct(String sku);
 
