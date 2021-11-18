@@ -8,7 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,13 +19,13 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Product")
-public class Product {
+
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID")
     private Long productId;
-    @Column(name = "sku")
     private String sku;
     private String name;
     private String description;
@@ -35,5 +38,8 @@ public class Product {
     private String brand;
     private int amountToReserve;
     private int amountToCancel;
+
+    @ManyToMany(mappedBy = "productFK")
+    Set<KeywordId> keywordFK=new HashSet<>();
 
 }

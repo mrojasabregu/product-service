@@ -17,8 +17,8 @@ public class ProductRequest {
     String name;
     @NotBlank(message = "El campo name no puede ser null o vacio.")
     String description;
-    @NotBlank(message = "El campo keywords no puede ser null o vacio.")
-    List<String> keywords;
+    //@NotBlank(message = "El campo keywords no puede ser null o vacio.")
+    //List<String> keywords;
     @NotBlank(message = "El campo price no puede ser null o vacio.")
     Float price;
     String imgUrl;

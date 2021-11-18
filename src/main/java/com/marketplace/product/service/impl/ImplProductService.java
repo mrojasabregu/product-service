@@ -49,7 +49,7 @@ public class ImplProductService implements ProductService {
     public Product CreateProduct(ProductRequest request) {
         Product product = productMapper.apply(request);
         if (request.getProductId() != null && productRepository.
-                findIdProduct(request.getProductId()) != null){
+                findById(request.getProductId()) != null){
             log.error("El producto ya exite.");
             throw new ProductExistException("El album ya existe.");
         }else{
