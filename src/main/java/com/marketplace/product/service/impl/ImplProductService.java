@@ -59,7 +59,7 @@ public class ImplProductService implements ProductService {
 
     @Override
     public Product getProductSku(String sku) {
-        return null;
+        return productRepository.findBySkuProduct(sku);
     }
 
     @Override

@@ -28,5 +28,7 @@ public class ProductRequest {
     @NotBlank(message = "El campo category no puede ser null o vacio.")
     String category;
     String brand;
+    int amountToReserve;
+    int amountToCancel;
 
 }

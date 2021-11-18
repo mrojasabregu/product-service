@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-@Table (name = "Product")
+@Table(name = "Product")
 public class Product {
 
     @Id
@@ -30,5 +30,7 @@ public class Product {
     private Float weight;
     private String category;
     private String brand;
+    private int amountToReserve;
+    private int amountToCancel;
 
 }
