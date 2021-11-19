@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.function.Function;
 
 @Component
-public class ProductMapper implements Function<ProductRequest,Product>{
+public class ProductMapper implements Function<ProductRequest, Product> {
 
     @Override
-    public Product apply(ProductRequest productRequest){
+    public Product apply(ProductRequest productRequest) {
         return Product.builder()
                 .productId(productRequest.getProductId())
                 .name(productRequest.getName())

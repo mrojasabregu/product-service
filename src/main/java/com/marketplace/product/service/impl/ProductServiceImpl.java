@@ -48,16 +48,16 @@ public class ProductServiceImpl implements ProductService {
         Product request = productMapper.apply(productRequest);
         Product productSku = productRepository.findBySku(sku);
 
-        if(sku!=null){
+        if (sku != null) {
             Integer actually = productSku.getUnitAvailable();
             Integer cancel = request.getAmountToCancel();
 
             productSku.setUnitAvailable(actually + cancel);
 
             return productRepository.save(productSku);
-        }else
+        } else
             log.error("Product not found");
-            throw new ProductNotExistException("Product not found");
+        throw new ProductNotExistException("Product not found");
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product deleteProduct(String sku) {
-       return productRepository.deleteBySku(sku);
+        return productRepository.deleteBySku(sku);
 
     }
 

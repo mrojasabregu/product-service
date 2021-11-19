@@ -19,10 +19,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Keywords")
 public class Keyword {
-    /*
-    @EmbeddedId
-    private KeywordId keywordId;
-    */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KEYWORD_ID")
