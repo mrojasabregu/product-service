@@ -39,9 +39,10 @@ public class Product {
     private Integer amountToReserve;
     private Integer amountToCancel;
 
+
     @ManyToMany//(cascade = CascadeType.ALL)
-    @JoinTable(joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
+    @JoinTable(name = "PRODUCT_KEYWORD",joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
             inverseJoinColumns = {@JoinColumn(name = "KEYWORD_ID")})
-    List<Keyword> KEYWORD = new ArrayList<>();
+    List<Keyword> keywords = new ArrayList<>();
 
 }

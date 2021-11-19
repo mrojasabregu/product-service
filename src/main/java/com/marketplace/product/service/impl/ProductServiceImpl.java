@@ -13,6 +13,8 @@ import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import com.marketplace.product.exception.ProductExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -101,7 +103,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product deleteProduct(String sku) {
-        return productRepository.deleteBySku(sku);
+        Product deleted=productRepository.findBySku(sku);
+        productRepository.delete(deleted);
+        return null;
 
     }
 
