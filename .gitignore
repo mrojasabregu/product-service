@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.mvn/
+.idea/modules.xml
+.idea/vcs.xml
+

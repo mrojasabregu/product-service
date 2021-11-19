@@ -29,9 +29,11 @@ public class Keyword {
     private Long keywordId;
 
     private String name;
-
+/*
     @ManyToMany(mappedBy = "KEYWORD")
     @JsonIgnore
+
     List<Product> PRODUCT=new ArrayList<>();
+ */
 
 }

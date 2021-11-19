@@ -5,6 +5,7 @@ import com.marketplace.product.controller.request.ProductRequest;
 import com.marketplace.product.domain.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 @Component
@@ -19,7 +20,7 @@ public class ProductMapper implements Function<ProductRequest,Product>{
                 .category(productRequest.getCategory())
                 .description(productRequest.getDescription())
                 .imgUrl(productRequest.getImgUrl())
-                .KEYWORD(productRequest.getKeywords())
+                //.KEYWORD(productRequest.getKeywords())
                 .price(productRequest.getPrice())
                 .sku(productRequest.getSku())
                 .unitAvailable(productRequest.getUnitAvailable())

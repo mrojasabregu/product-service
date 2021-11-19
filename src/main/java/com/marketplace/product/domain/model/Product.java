@@ -30,6 +30,8 @@ public class Product{
     private String sku;
     private String name;
     private String description;
+    //@ElementCollection(targetClass = String.class)
+    //@Column(name="keywords")
     //private List<String> keywords;
     private Float price;
     private String imgUrl;
@@ -37,16 +39,15 @@ public class Product{
     private Float weight;
     private String category;
     private String brand;
-    private int amountToReserve;
-    private int amountToCancel;
-    /*@JoinColumns({@JoinColumn(name = "PRODUCT_ID", referencedColumnName="PRODUCT_ID"),
-            @JoinColumn(name= "KEYWORD", referencedColumnName="KEYWORD")})
+    private Integer amountToReserve;
+    private Integer amountToCancel;
 
-     */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
             inverseJoinColumns = {@JoinColumn(name = "KEYWORD_ID")})
     List<Keyword> KEYWORD=new ArrayList<>();
+
+
 
 
 
