@@ -1,5 +1,6 @@
 package com.marketplace.product.controller.request;
 
+import com.marketplace.product.domain.model.Keyword;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class ProductRequest {
     @NotBlank(message = "El campo name no puede ser null o vacio.")
     String description;
     //@NotBlank(message = "El campo keywords no puede ser null o vacio.")
-    //List<String> keywords;
+    List<Keyword> keywords;
     @NotBlank(message = "El campo price no puede ser null o vacio.")
     Float price;
     String imgUrl;

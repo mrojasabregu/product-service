@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Product")
 
-public class Product implements Serializable {
+public class Product{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +39,15 @@ public class Product implements Serializable {
     private String brand;
     private int amountToReserve;
     private int amountToCancel;
+    /*@JoinColumns({@JoinColumn(name = "PRODUCT_ID", referencedColumnName="PRODUCT_ID"),
+            @JoinColumn(name= "KEYWORD", referencedColumnName="KEYWORD")})
 
-    @ManyToMany(mappedBy = "productFK")
-    Set<KeywordId> keywordFK=new HashSet<>();
+     */
+    @ManyToMany
+    @JoinTable( joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "KEYWORD_ID")})
+    List<Keyword> KEYWORD=new ArrayList<>();
+
+
 
 }

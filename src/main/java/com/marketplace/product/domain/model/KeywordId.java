@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -19,12 +21,12 @@ import java.util.Set;
 @Embeddable
 public class KeywordId implements Serializable {
 
+
     @Column(name = "PRODUCT_ID")
     private Long productId;
-    @Column(name = "KEYWORD")
-    private String keyword;
 
-
+    @Column(name = "KEYWORD_ID")
+    private Long keywordId;
 
 
 }

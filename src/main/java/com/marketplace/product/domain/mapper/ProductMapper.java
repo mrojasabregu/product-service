@@ -19,7 +19,7 @@ public class ProductMapper implements Function<ProductRequest,Product>{
                 .category(productRequest.getCategory())
                 .description(productRequest.getDescription())
                 .imgUrl(productRequest.getImgUrl())
-                //.keywords(productRequest.getKeywords())
+                .KEYWORD(productRequest.getKeywords())
                 .price(productRequest.getPrice())
                 .sku(productRequest.getSku())
                 .unitAvailable(productRequest.getUnitAvailable())

@@ -48,12 +48,11 @@ public class ImplProductService implements ProductService {
     @Override
     public Product CreateProduct(ProductRequest request) {
         Product product = productMapper.apply(request);
-        if (request.getProductId() != null && productRepository.
-                findById(request.getProductId()) != null){
+        if (request.getProductId() != null){
             log.error("El producto ya exite.");
-            throw new ProductExistException("El album ya existe.");
+            throw new ProductExistException("El producto ya exite.");
         }else{
-            productRepository.save(productMapper.apply(request));
+            productRepository.save(product);
         }
         return product;
     }

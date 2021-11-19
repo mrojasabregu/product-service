@@ -1,12 +1,15 @@
 package com.marketplace.product.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -16,14 +19,19 @@ import java.util.Set;
 @Entity
 @Table(name = "Keywords")
 public class Keyword {
-
+    /*
     @EmbeddedId
     private KeywordId keywordId;
+    */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "KEYWORD_ID")
+    private Long keywordId;
 
-    @ManyToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "PRODUCT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
-    Set<Product> productFK=new HashSet<>();
+    private String name;
 
+    @ManyToMany(mappedBy = "KEYWORD")
+    @JsonIgnore
+    List<Product> PRODUCT=new ArrayList<>();
 
 }
