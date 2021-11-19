@@ -23,7 +23,7 @@ public interface ProductService {
 
     Product putProductSku(ProductRequest request, String sku);
 
-    Product deleteProduct(String sku);
+    Long deleteProduct(String sku);
 
     Product postProductBulk();
 }
