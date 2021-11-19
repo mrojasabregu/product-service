@@ -35,6 +35,11 @@ public class ProductController {
         return productService.cancelReserve(productRequest, sku);
     }
 
+    @PostMapping(path = "/product/{sku}/stock/reserve")
+    public Product updateProduct(@Validated @RequestBody ProductRequest productRequest, @PathVariable ("sku") String sku){
+        return productService.updateProduct(productRequest, sku);
+    }
+
     @GetMapping(path = "/product/{sku}")
     public Product retriveProduct(@PathVariable("sku") String sku) {
         return productService.getProductSku(sku);

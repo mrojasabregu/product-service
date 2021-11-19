@@ -72,18 +72,29 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.apply(productRequest);
 
         if (productRequest.getProductId() != null) {
-            log.error("Album already exists");
-            throw new ProductExistException("Album already exists");
+            log.error("Product already exists");
+            throw new ProductExistException("Product already exists");
         } else {
             return productRepository.save(product);
         }
     }
 
     @Override
-    public Product updateProduct(String sku) {
-        return null;
-    }
+    public Product updateProduct(ProductRequest productRequest, String sku){
+    Product request = productMapper.apply(productRequest);
+    Product productSku = productRepository.findBySku(sku);
 
+        if (sku != null) {
+        Integer actually = productSku.getUnitAvailable();
+        Integer reserve = request.getAmountToCancel();
+
+        productSku.setUnitAvailable(actually - reserve);
+
+        return productRepository.save(productSku);
+    } else
+            log.error("Product not found");
+        throw new ProductNotExistException("Product not found");
+    }
     @Override
     public Product getProductSku(String sku) {
         return productRepository.findBySku(sku);
@@ -96,8 +107,8 @@ public class ProductServiceImpl implements ProductService {
             product = productMapper.apply(request);
             return productRepository.save(product);
         } else {
-            log.error("El producto NO existe");
-            throw new ProductNotExistException("El producto NO existe");
+            log.error("The product does NOT exist");
+            throw new ProductNotExistException("The product does NOT exist");
         }
     }
 
