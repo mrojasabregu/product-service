@@ -1,7 +1,4 @@
 package com.marketplace.product.domain.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +35,7 @@ public class Product {
     private String brand;
     private Integer amountToReserve;
     private Integer amountToCancel;
+
     
     @ManyToMany//(cascade = CascadeType.ALL)
     @JoinTable(name = "PRODUCT_KEYWORD",joinColumns = {@JoinColumn(name = "PRODUCT_ID")},

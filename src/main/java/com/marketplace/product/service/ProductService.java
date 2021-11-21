@@ -1,5 +1,6 @@
 package com.marketplace.product.service;
 import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.model.Product;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public interface ProductService {
 
     Product getProductSku(String sku);
 
-    Product putProductSku(ProductRequest request, String sku);
+    Product putProductSku(PutProductSkuRequest request, String sku);
 
     Product deleteProduct(String sku);
 

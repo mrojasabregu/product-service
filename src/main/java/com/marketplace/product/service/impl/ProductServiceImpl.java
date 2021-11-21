@@ -2,9 +2,11 @@ package com.marketplace.product.service.impl;
 
 import com.marketplace.product.controller.request.KeywordRequest;
 import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.KeywordMapper;
 import com.marketplace.product.domain.mapper.ProductMapper;
+import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
 import com.marketplace.product.domain.model.Keyword;
 import com.marketplace.product.domain.model.Product;
@@ -32,6 +34,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private PutProductSkuMapper putProductSkuMapper;
 
     @Autowired
     private ReserveProductMapper reserveProductMapper;
@@ -103,10 +108,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product putProductSku(ProductRequest request, String sku) {
+    public Product putProductSku(PutProductSkuRequest request, String sku) {
         Product product;
         if (productRepository.findBySku(sku) != null) {
-            product = productMapper.apply(request);
+            product = putProductSkuMapper.apply(request);
+            //productRepository.delete(productRepository.findBySku(request.getSku()));
             return productRepository.save(product);
         } else {
             log.error("The product does NOT exist");
@@ -114,12 +120,12 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
     @Override
     public Product deleteProduct(String sku) {
         Product deleted = productRepository.findBySku(sku);
         productRepository.delete(deleted);
         return null;
-
     }
 
     @Override
