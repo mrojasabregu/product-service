@@ -36,5 +36,4 @@ public class CancelReserveProductMapper implements Function<CancelReserveProduct
                 .amountToCancel(cancelReserveProductRequest.getAmountToCancel())
                 .build();
     }
-
 }

@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
         Product request = productMapper.apply(productRequest);
         Product productSku = productRepository.findBySku(sku);
 
-        if (sku != null) {
+        if (productRequest.getSku() != null) {
             Integer actually = productSku.getUnitAvailable();
             Integer cancel = request.getAmountToCancel();
 
