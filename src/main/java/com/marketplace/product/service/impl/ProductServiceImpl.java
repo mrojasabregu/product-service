@@ -2,8 +2,10 @@ package com.marketplace.product.service.impl;
 
 import com.marketplace.product.controller.request.KeywordRequest;
 import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.KeywordMapper;
 import com.marketplace.product.domain.mapper.ProductMapper;
+import com.marketplace.product.domain.mapper.ReserveProductMapper;
 import com.marketplace.product.domain.model.Keyword;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductNotExistException;
@@ -24,13 +26,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-
 @Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private ReserveProductMapper reserveProductMapper;
 
     @Autowired
     private ProductRepository productRepository;
@@ -68,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product CreateProduct(ProductRequest productRequest) {
+    public Product createProduct(ProductRequest productRequest) {
         Product product = productMapper.apply(productRequest);
 
         if (productRequest.getProductId() != null) {
@@ -80,21 +84,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(ProductRequest productRequest, String sku){
-    Product request = productMapper.apply(productRequest);
-    Product productSku = productRepository.findBySku(sku);
+    public Product reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
+        Product request = reserveProductMapper.apply(reserveProductRequest);
+        Product productSku = productRepository.findBySku(sku);
 
         if (sku != null) {
-        Integer actually = productSku.getUnitAvailable();
-        Integer reserve = request.getAmountToCancel();
+            Integer actually = productSku.getUnitAvailable();
+            Integer reserve = request.getAmountToCancel();
 
-        productSku.setUnitAvailable(actually - reserve);
+            productSku.setUnitAvailable(actually - reserve);
 
-        return productRepository.save(productSku);
-    } else
+            return productRepository.save(productSku);
+        } else{
             log.error("Product not found");
-        throw new ProductNotExistException("Product not found");
+            throw new ProductNotExistException("Product not found");
+        }
     }
+
     @Override
     public Product getProductSku(String sku) {
         return productRepository.findBySku(sku);
@@ -114,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product deleteProduct(String sku) {
-        Product deleted=productRepository.findBySku(sku);
+        Product deleted = productRepository.findBySku(sku);
         productRepository.delete(deleted);
         return null;
 

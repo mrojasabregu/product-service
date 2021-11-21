@@ -1,22 +1,16 @@
 package com.marketplace.product.controller;
 
-import com.marketplace.product.controller.request.KeywordRequest;
 import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.model.Product;
-import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -27,8 +21,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ProductRepository productRepository;
 
     @PostMapping(path = "/product/{sku}/stock/cancelReserve")
     public Product cancelProduct(@Validated @RequestBody ProductRequest productRequest, @PathVariable("sku") String sku) {
@@ -36,8 +28,8 @@ public class ProductController {
     }
 
     @PostMapping(path = "/product/{sku}/stock/reserve")
-    public Product updateProduct(@Validated @RequestBody ProductRequest productRequest, @PathVariable ("sku") String sku){
-        return productService.updateProduct(productRequest, sku);
+    public Product reserveProduct(@Validated @RequestBody ReserveProductRequest productRequest, @PathVariable ("sku") String sku){
+        return productService.reserveProduct(productRequest, sku);
     }
 
     @GetMapping(path = "/product/{sku}")
@@ -62,7 +54,7 @@ public class ProductController {
 
     @PostMapping(path = "/product")
     public Product createProduct(@Validated @RequestBody ProductRequest productRequest) {
-        return productService.CreateProduct(productRequest);
+        return productService.createProduct(productRequest);
     }
 
 

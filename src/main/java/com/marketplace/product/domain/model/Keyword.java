@@ -32,5 +32,4 @@ public class Keyword {
     @JsonBackReference("keywords")
     List<Product> products =new ArrayList<>();
 
-
 }
