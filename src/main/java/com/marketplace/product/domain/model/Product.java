@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -16,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Product")
 
-public class Product implements Serializable {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,21 +27,19 @@ public class Product implements Serializable {
     private String sku;
     private String name;
     private String description;
-    //private List<String> keywords;
     private Float price;
     private String imgUrl;
     private Integer unitAvailable;
     private Float weight;
     private String category;
     private String brand;
-    private int amountToReserve;
-    private int amountToCancel;
+    private Integer amountToReserve;
+    private Integer amountToCancel;
+
 
     @ManyToMany
-    @JoinTable(
-            name = "ProdXKeyword",
-            joinColumns = @JoinColumn(name = "PRODUCT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "KEYWORD"))
-    Set<Keyword> keywordFK;
+    @JoinTable(name = "PRODUCT_KEYWORD",joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "KEYWORD_ID")})
+    List<Keyword> keywords = new ArrayList<>();
 
 }

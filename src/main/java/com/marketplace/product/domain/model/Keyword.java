@@ -1,13 +1,14 @@
 package com.marketplace.product.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,9 +19,14 @@ import java.util.Set;
 public class Keyword {
 
     @Id
-    @Column(name = "KEYWORD")
-    private String keyword;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "KEYWORD_ID")
+    private Long keywordId;
 
-    @ManyToMany(mappedBy = "keywordFK")
-    Set<Product> keywords;
+    private String name;
+
+    @ManyToMany(mappedBy = "keywords")
+    @JsonBackReference("keywords")
+    List<Product> products =new ArrayList<>();
+
 }
