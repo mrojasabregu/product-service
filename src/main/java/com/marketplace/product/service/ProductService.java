@@ -3,27 +3,28 @@ import com.marketplace.product.controller.request.ProductRequest;
 import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.model.Product;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
 public interface ProductService {
 
-    List<Product> getProducts();
+    ResponseEntity<List<Product>> getProducts();
 
-    Product cancelReserve(ProductRequest productRequest, String sku);
+    ResponseEntity<Product> cancelReserve(ProductRequest productRequest, String sku);
 
-    Product getProducts(List<String> keywords);
+    ResponseEntity<Product> getProducts(List<String> keywords);
 
-    Product createProduct(ProductRequest productRequest);
+    ResponseEntity<Product> createProduct(ProductRequest productRequest);
 
-    Product reserveProduct(ReserveProductRequest productRequest, String sku);
+    ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest productRequest, String sku);
 
-    Product getProductSku(String sku);
+    ResponseEntity<Product> getProductSku(String sku);
 
-    Product putProductSku(PutProductSkuRequest request, String sku);
+    ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku);
 
-    Product deleteProduct(String sku);
+    ResponseEntity<Product> deleteProduct(String sku);
 
-    Product postProductBulk();
+    ResponseEntity<Product> postProductBulk();
 }
