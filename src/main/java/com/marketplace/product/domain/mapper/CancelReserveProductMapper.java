@@ -1,25 +1,24 @@
 package com.marketplace.product.domain.mapper;
 
-import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.CancelReserveProductRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.function.Function;
 
 @Component
-public class ReserveProductMapper implements Function<ReserveProductRequest, Product> {
+public class CancelReserveProductMapper implements Function<CancelReserveProductRequest, Product> {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Override
-    public Product apply(ReserveProductRequest reserveProductRequest) {
+    public Product apply(CancelReserveProductRequest cancelReserveProductRequest) {
 
-        Product product = productRepository.findBySku(reserveProductRequest.getSku());
+        Product product = productRepository.findBySku(cancelReserveProductRequest.getSku());
 
         return Product.builder()
                 .productId(product.getProductId())
@@ -30,11 +29,12 @@ public class ReserveProductMapper implements Function<ReserveProductRequest, Pro
                 .imgUrl(product.getImgUrl())
                 .keywords(product.getKeywords())
                 .price(product.getPrice())
-                .sku(reserveProductRequest.getSku())
+                .sku(cancelReserveProductRequest.getSku())
                 .unitAvailable(product.getUnitAvailable())
                 .weight(product.getWeight())
-                .amountToReserve(reserveProductRequest.getAmountToReserve())
-                .amountToCancel(product.getAmountToCancel())
+                .amountToReserve(product.getAmountToReserve())
+                .amountToCancel(cancelReserveProductRequest.getAmountToCancel())
                 .build();
     }
+
 }
