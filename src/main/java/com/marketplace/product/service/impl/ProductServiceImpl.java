@@ -45,17 +45,17 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public List<Product> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         //Iterable to List
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        return products;
+        return ResponseEntity.ok(products);
     }
 
     @Override
-    public Product cancelReserve(ProductRequest productRequest, String sku) {
+    public ResponseEntity<Product> cancelReserve(ProductRequest productRequest, String sku) {
         Product request = productMapper.apply(productRequest);
         Product productSku = productRepository.findBySku(sku);
 
@@ -65,31 +65,31 @@ public class ProductServiceImpl implements ProductService {
 
             productSku.setUnitAvailable(actually + cancel);
 
-            return productRepository.save(productSku);
+            return ResponseEntity.ok(productRepository.save(productSku));
         } else
             log.error("Product not found");
         throw new ProductNotExistException("Product not found");
     }
 
     @Override
-    public Product getProducts(List<String> keywords) {
+    public ResponseEntity<Product> getProducts(List<String> keywords) {
         return null;
     }
 
     @Override
-    public Product createProduct(ProductRequest productRequest) {
+    public ResponseEntity<Product> createProduct(ProductRequest productRequest) {
         Product product = productMapper.apply(productRequest);
 
         if (productRequest.getProductId() != null) {
             log.error("Product already exists");
             throw new ProductExistException("Product already exists");
         } else {
-            return productRepository.save(product);
+            return ResponseEntity.ok(productRepository.save(product));
         }
     }
 
     @Override
-    public List<Product> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
+    public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
         List<Product> listReserveProduct=new ArrayList<>();
         Product request = reserveProductMapper.apply(reserveProductRequest);
         Product productSku = productRepository.findBySku(sku);
@@ -101,38 +101,36 @@ public class ProductServiceImpl implements ProductService {
 
         listReserveProduct.add(productRepository.save(productSku));
 
-        return listReserveProduct;
-
+        return ResponseEntity.ok(listReserveProduct);
     }
 
     @Override
-    public Product getProductSku(String sku) {
-        return productRepository.findBySku(sku);
+    public ResponseEntity<Product> getProductSku(String sku) {
+        return ResponseEntity.ok(productRepository.findBySku(sku));
     }
 
     @Override
-    public Product putProductSku(PutProductSkuRequest request, String sku) {
+    public ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku) {
         Product product;
         if (productRepository.findBySku(sku) != null) {
             product = putProductSkuMapper.apply(request);
             //productRepository.delete(productRepository.findBySku(request.getSku()));
-            return productRepository.save(product);
+            return ResponseEntity.ok(productRepository.save(product));
         } else {
             log.error("The product does NOT exist");
             throw new ProductNotExistException("The product does NOT exist");
         }
     }
 
-
     @Override
-    public Product deleteProduct(String sku) {
+    public ResponseEntity<Product> deleteProduct(String sku) {
         Product deleted = productRepository.findBySku(sku);
         productRepository.delete(deleted);
-        return null;
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @Override
-    public Product postProductBulk() {
+    public ResponseEntity<Product> postProductBulk() {
         return null;
     }
 }
