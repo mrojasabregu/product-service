@@ -88,17 +88,13 @@ public class ProductServiceImpl implements ProductService {
         Product request = reserveProductMapper.apply(reserveProductRequest);
         Product productSku = productRepository.findBySku(sku);
 
-        if (sku != null) {
-            Integer actually = productSku.getUnitAvailable();
-            Integer reserve = request.getAmountToCancel();
+        Integer actually = productSku.getUnitAvailable();
+        Integer reserve = request.getAmountToReserve();
 
-            productSku.setUnitAvailable(actually - reserve);
+        productSku.setUnitAvailable(actually - reserve);
 
-            return productRepository.save(productSku);
-        } else{
-            log.error("Product not found");
-            throw new ProductNotExistException("Product not found");
-        }
+        return productRepository.save(productSku);
+
     }
 
     @Override
