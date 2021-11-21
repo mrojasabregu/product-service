@@ -12,7 +12,6 @@ public interface ProductRepository extends CrudRepository<Product,Long> {
 
     Product deleteBySku(String sku);
 
-
     Product findBySku(String sku);
 
 }

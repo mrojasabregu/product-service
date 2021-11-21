@@ -1,12 +1,13 @@
 package com.marketplace.product.domain.model;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,8 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Product")
-public class Product {
+
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +34,12 @@ public class Product {
     private String brand;
     private int amountToReserve;
     private int amountToCancel;
+
+    @ManyToMany
+    @JoinTable(
+            name = "ProdXKeyword",
+            joinColumns = @JoinColumn(name = "PRODUCT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "KEYWORD"))
+    Set<Keyword> keywordFK;
 
 }

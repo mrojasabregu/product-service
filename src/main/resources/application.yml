@@ -8,10 +8,13 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
-    hibernate.ddl-auto: create-drop
+    hibernate:
+      ddl-auto: update
   h2:
-    console.enabled: true
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
 
 management:
   endpoints:
@@ -21,7 +24,8 @@ management:
         prometheus: /metrics
       exposure:
         include:
-          -health
-          -info
-          -metrics
-          -prometheus
+          - health
+          - info
+          - metrics
+          - prometheus
+
