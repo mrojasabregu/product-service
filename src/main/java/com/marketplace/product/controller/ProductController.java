@@ -28,7 +28,8 @@ public class ProductController {
     }
 
     @PostMapping(path = "/product/{sku}/stock/reserve")
-    public Product reserveProduct(@Validated @RequestBody ReserveProductRequest productRequest, @PathVariable("sku") String sku) {
+    public List<Product> reserveProduct(@Validated @RequestBody ReserveProductRequest productRequest, @PathVariable("sku") String sku) {
+        
         return productService.reserveProduct(productRequest, sku);
     }
 

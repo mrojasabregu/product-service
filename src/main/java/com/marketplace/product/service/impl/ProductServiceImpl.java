@@ -89,7 +89,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
+    public List<Product> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
+        List<Product> listReserveProduct=new ArrayList<>();
         Product request = reserveProductMapper.apply(reserveProductRequest);
         Product productSku = productRepository.findBySku(sku);
 
@@ -98,7 +99,9 @@ public class ProductServiceImpl implements ProductService {
 
         productSku.setUnitAvailable(actually - reserve);
 
-        return productRepository.save(productSku);
+        listReserveProduct.add(productRepository.save(productSku));
+
+        return listReserveProduct;
 
     }
 
