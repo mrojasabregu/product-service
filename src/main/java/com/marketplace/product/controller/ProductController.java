@@ -1,6 +1,7 @@
 package com.marketplace.product.controller;
 
 import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.service.ProductService;
@@ -37,8 +38,8 @@ public class ProductController {
     }
 
     @PutMapping(path = "/product/{sku}")
-    public Product editProduct(@Validated @RequestBody ProductRequest request, @PathVariable("sku") String sku) {
-        return productService.putProductSku(request, sku);
+    public Product editProduct(@Validated @RequestBody PutProductSkuRequest productRequest, @PathVariable("sku") String sku) {
+        return productService.putProductSku(productRequest, sku);
     }
 
     @DeleteMapping(path = "/product/{sku}")
