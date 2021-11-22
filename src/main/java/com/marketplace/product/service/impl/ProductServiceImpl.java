@@ -10,6 +10,7 @@ import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
 
 import com.marketplace.product.domain.model.Product;
+import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
@@ -81,9 +82,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Product> createProduct(PostProductRequest postProductRequest) {
-        Product product = postProductMapper.apply(postProductRequest);
 
-        return ResponseEntity.ok(productRepository.save(product));
+        if (productRepository.findBySku(postProductRequest.getSku()) != null) {
+            log.error("The sku already exist");
+            throw new ProductExistException("The sku already exist");
+        } else {
+            Product product = postProductMapper.apply(postProductRequest);
+
+            return ResponseEntity.ok(productRepository.save(product));
+        }
     }
 
     @Override
