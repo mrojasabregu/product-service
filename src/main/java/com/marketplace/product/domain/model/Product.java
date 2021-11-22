@@ -1,7 +1,4 @@
 package com.marketplace.product.domain.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,17 +27,17 @@ public class Product {
     private String sku;
     private String name;
     private String description;
-    private Float price;
+    private Double price;
     private String imgUrl;
     private Integer unitAvailable;
-    private Float weight;
+    private Double weight;
     private String category;
     private String brand;
     private Integer amountToReserve;
     private Integer amountToCancel;
 
-
-    @ManyToMany//(cascade = CascadeType.ALL)
+    
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "PRODUCT_KEYWORD",joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
             inverseJoinColumns = {@JoinColumn(name = "KEYWORD_ID")})
     List<Keyword> keywords = new ArrayList<>();

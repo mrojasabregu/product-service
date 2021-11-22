@@ -1,7 +1,6 @@
 package com.marketplace.product.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,12 +22,13 @@ public class Keyword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KEYWORD_ID")
     private Long keywordId;
+    @Column(name = "NAME")
+    @ElementCollection
+    private List<String> name;
 
-    private String name;
-
+    /*
     @ManyToMany(mappedBy = "keywords")
     @JsonBackReference("keywords")
     List<Product> products =new ArrayList<>();
-
-
+     */
 }
