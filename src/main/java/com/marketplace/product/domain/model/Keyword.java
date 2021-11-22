@@ -1,5 +1,6 @@
 package com.marketplace.product.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,11 +27,10 @@ public class Keyword {
     private Long keywordId;
 
     private String name;
-/*
-    @ManyToMany(mappedBy = "KEYWORD")
-    @JsonIgnore
 
-    List<Product> PRODUCT=new ArrayList<>();
- */
+    @ManyToMany(mappedBy = "keywords")
+    @JsonBackReference("keywords")
+    List<Product> products =new ArrayList<>();
+
 
 }

@@ -13,10 +13,6 @@ public interface ProductRepository extends CrudRepository<Product,Long> {
 
     List<Product> findByName(String name);
 
-    @Modifying
-    @Query(value = "DELETE FROM PRODUCT WHERE SKU = ?1", nativeQuery = true)
-    Product deleteBySku(String sku);
-
     Product findBySku(String sku);
 
 }

@@ -1,22 +1,16 @@
 package com.marketplace.product.controller;
 
-import com.marketplace.product.controller.request.KeywordRequest;
 import com.marketplace.product.controller.request.ProductRequest;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -33,6 +27,11 @@ public class ProductController {
     @PostMapping(path = "/product/{sku}/stock/cancelReserve")
     public Product cancelProduct(@Validated @RequestBody ProductRequest productRequest, @PathVariable("sku") String sku) {
         return productService.cancelReserve(productRequest, sku);
+    }
+
+    @PostMapping(path = "/product/{sku}/stock/reserve")
+    public Product updateProduct(@Validated @RequestBody ProductRequest productRequest, @PathVariable ("sku") String sku){
+        return productService.updateProduct(productRequest, sku);
     }
 
     @GetMapping(path = "/product/{sku}")
