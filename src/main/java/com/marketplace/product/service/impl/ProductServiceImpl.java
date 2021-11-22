@@ -114,7 +114,6 @@ public class ProductServiceImpl implements ProductService {
         Product product;
         if (productRepository.findBySku(sku) != null) {
             product = putProductSkuMapper.apply(request);
-            //productRepository.delete(productRepository.findBySku(request.getSku()));
             return ResponseEntity.ok(productRepository.save(product));
         } else {
             log.error("The product does NOT exist");

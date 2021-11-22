@@ -13,9 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class ReserveProductRequest {
-
     Long productId;
-    String sku; //
+    String sku;
     String name;
     String description;
     List<Keyword> keywords;
@@ -25,6 +24,6 @@ public class ReserveProductRequest {
     Double weight;
     String category;
     String brand;
-    Integer amountToReserve;//
+    Integer amountToReserve;
     Integer amountToCancel;
 }
