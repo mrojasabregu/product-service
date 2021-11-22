@@ -1,8 +1,6 @@
 package com.marketplace.product.controller;
 
-import com.marketplace.product.controller.request.ProductRequest;
-import com.marketplace.product.controller.request.PutProductSkuRequest;
-import com.marketplace.product.controller.request.ReserveProductRequest;
+import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +22,8 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(path = "/product/{sku}/stock/cancelReserve")
-    public ResponseEntity<Product> cancelProduct(@Validated @RequestBody ProductRequest productRequest, @PathVariable("sku") String sku) {
-        return productService.cancelReserve(productRequest, sku);
+    public ResponseEntity<Product> cancelProduct(@Validated @RequestBody CancelReserveProductRequest cancelReserveProductRequest, @PathVariable("sku") String sku) {
+        return productService.cancelReserve(cancelReserveProductRequest, sku);
     }
 
     @PostMapping(path = "/product/{sku}/stock/reserve")
@@ -55,8 +53,8 @@ public class ProductController {
     }
 
     @PostMapping(path = "/product")
-    public ResponseEntity<Product> createProduct(@Validated @RequestBody ProductRequest productRequest) {
-        return productService.createProduct(productRequest);
+    public ResponseEntity<Product> createProduct(@Validated @RequestBody PostProductSkuRequest postProductSkuRequest) {
+        return productService.createProduct(postProductSkuRequest);
     }
 
 }

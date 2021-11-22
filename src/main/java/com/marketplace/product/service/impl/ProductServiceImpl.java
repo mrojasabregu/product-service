@@ -1,13 +1,7 @@
 package com.marketplace.product.service.impl;
 
-import com.marketplace.product.controller.request.KeywordRequest;
-import com.marketplace.product.controller.request.ProductRequest;
-import com.marketplace.product.controller.request.PutProductSkuRequest;
-import com.marketplace.product.controller.request.ReserveProductRequest;
-import com.marketplace.product.domain.mapper.KeywordMapper;
-import com.marketplace.product.domain.mapper.ProductMapper;
-import com.marketplace.product.domain.mapper.PutProductSkuMapper;
-import com.marketplace.product.domain.mapper.ReserveProductMapper;
+import com.marketplace.product.controller.request.*;
+import com.marketplace.product.domain.mapper.*;
 import com.marketplace.product.domain.model.Keyword;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductNotExistException;
@@ -44,6 +38,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private PostProductSkuMapper postProductSkuMapper;
+
+    @Autowired
+    private CancelReserveProductMapper cancelReserveProductMapper;
+
     @Override
     public ResponseEntity<List<Product>> getProducts() {
         //Iterable to List
@@ -55,20 +55,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> cancelReserve(ProductRequest productRequest, String sku) {
-        Product request = productMapper.apply(productRequest);
-        Product productSku = productRepository.findBySku(sku);
+    public ResponseEntity<Product> cancelReserve(CancelReserveProductRequest cancelReserveProductRequest, String sku) {
 
-        if (productRequest.getSku() != null) {
+        if (cancelReserveProductRequest.getSku() != null) {
+            Product request = cancelReserveProductMapper.apply(cancelReserveProductRequest);
+            Product productSku = productRepository.findBySku(sku);
+
             Integer actually = productSku.getUnitAvailable();
             Integer cancel = request.getAmountToCancel();
 
             productSku.setUnitAvailable(actually + cancel);
 
             return ResponseEntity.ok(productRepository.save(productSku));
-        } else
+        } else{
             log.error("Product not found");
-        throw new ProductNotExistException("Product not found");
+            throw new ProductNotExistException("Product not found");
+        }
+
     }
 
     @Override
@@ -77,27 +80,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> createProduct(ProductRequest productRequest) {
-        Product product = productMapper.apply(productRequest);
+    public ResponseEntity<Product> createProduct(PostProductSkuRequest postProductSkuRequest) {
+        Product product = postProductSkuMapper.apply(postProductSkuRequest);
 
         return ResponseEntity.ok(productRepository.save(product));
-
     }
 
     @Override
     public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
-        List<Product> listReserveProduct = new ArrayList<>();
-        Product request = reserveProductMapper.apply(reserveProductRequest);
-        Product productSku = productRepository.findBySku(sku);
+        if (reserveProductRequest.getSku() != null) {
+            Product request = reserveProductMapper.apply(reserveProductRequest);
+            Product productSku = productRepository.findBySku(sku);
 
-        Integer actually = productSku.getUnitAvailable();
-        Integer reserve = request.getAmountToReserve();
+            Integer actually = productSku.getUnitAvailable();
+            Integer reserve = request.getAmountToReserve();
 
-        productSku.setUnitAvailable(actually - reserve);
+            productSku.setUnitAvailable(actually - reserve);
 
-        listReserveProduct.add(productRepository.save(productSku));
-
-        return ResponseEntity.ok(listReserveProduct);
+            return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
+        } else{
+            log.error("Product not found");
+            throw new ProductNotExistException("Product not found");
+        }
     }
 
     @Override
