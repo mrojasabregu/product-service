@@ -49,7 +49,7 @@ paths:
       tags:
       - "Product"
       summary: "Create an Product"
-      operationId: "CreateProduct"
+      operationId: "createProduct"
       consumes:
       - "application/json"
       produces:
@@ -60,7 +60,7 @@ paths:
         description: "Create a new Product"
         required: true
         schema:
-          $ref: "#/definitions/ProductRequest"
+          $ref: "#/definitions/ProductSkuRequest"
       responses:
         200:
           description: "created"
@@ -87,7 +87,7 @@ paths:
       - "Product"
       summary: "Update an existing product"
       description: "Update an existing product"
-      operationId: "updateProduct"
+      operationId: "reserveProduct"
       consumes:
       - "application/json"
       produces:
@@ -103,7 +103,7 @@ paths:
         description: "Product object that needs to be added to the store"
         required: true
         schema:
-          $ref: "#/definitions/ProductReserve"
+          $ref: "#/definitions/ReserveProductRequest"
       responses:
         "204":
           description: "succesful operation"
@@ -120,6 +120,7 @@ paths:
       - "Product"
       summary: "Cancel booking"
       description: "Cancel booking"
+      operationId: "cancelReserve"
       consumes:
       - "application/json"
       produces:
@@ -135,7 +136,7 @@ paths:
         description: "Product object that needs to be added to the store"
         required: true
         schema:
-          $ref: "#/definitions/ProductCancel"
+          $ref: "#/definitions/CancelReserveProductRequest"
       responses:
         "204":
           description: "succesful operation"
@@ -190,12 +191,12 @@ paths:
         description: "Updated sku product"
         required: true
         schema:
-          $ref: "#/definitions/ProductRequest"
+          $ref: "#/definitions/ProductSkuRequest"
       responses:
         "200":
           description: "succesful operation"
           schema:
-            $ref: "#/definitions/ProductRequest"
+            $ref: "#/definitions/ProductSkuRequest"
         "400":
           description: "Invalid user supplied"
         "404":
@@ -250,7 +251,7 @@ paths:
           description: "Validation exception"
 
 definitions:
-  ProductRequest:
+  ProductSkuRequest:
     type: "object"
     required:
       - "sku"
@@ -280,7 +281,7 @@ definitions:
           type: string
       price:
         type: "number"
-        format: "float"
+        format: "doble"
         example: 3000
       imgUrl:
         type: "string"
@@ -317,7 +318,7 @@ definitions:
           type: string
       price:
         type: "number"
-        format: "float"
+        format: "doble"
       imgUrl:
         type: "string"
       unitAvailable:
@@ -330,23 +331,19 @@ definitions:
       brand:
         type: "string"
   
-  ProductReserve:
+  ReserveProductRequest:
     type: "object"
     properties: 
       sku:
         type: "string"
-      unitAvailable:
-        type: "number"
       amountToReserve:
         type: "number"
         
-  ProductCancel:      
+  CancelReserveProductRequest:      
     type: "object"
     properties: 
       sku:
         type: "string"
-      unitAvailable:
-        type: "number"
       amountToCancel:
         type: "number"    
         
