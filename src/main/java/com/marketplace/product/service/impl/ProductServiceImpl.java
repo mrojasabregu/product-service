@@ -1,17 +1,14 @@
 package com.marketplace.product.service.impl;
 
-<<<<<<< HEAD
+
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
-import com.marketplace.product.domain.model.Keyword;
-=======
-import com.marketplace.product.controller.request.ProductRequest;
+
 import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
-import com.marketplace.product.domain.mapper.ProductMapper;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
->>>>>>> e294a692483dd88f1a730afac80d1a6e2f95fc6f
+
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.ProductRepository;
@@ -22,7 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -31,8 +28,6 @@ import java.util.stream.StreamSupport;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductMapper productMapper;
 
     @Autowired
     private PutProductSkuMapper putProductSkuMapper;
@@ -44,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    private PostProductSkuMapper postProductSkuMapper;
+    private PostProductMapper postProductMapper;
 
     @Autowired
     private CancelReserveProductMapper cancelReserveProductMapper;
@@ -85,8 +80,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> createProduct(PostProductSkuRequest postProductSkuRequest) {
-        Product product = postProductSkuMapper.apply(postProductSkuRequest);
+    public ResponseEntity<Product> createProduct(PostProductRequest postProductRequest) {
+        Product product = postProductMapper.apply(postProductRequest);
 
         return ResponseEntity.ok(productRepository.save(product));
     }

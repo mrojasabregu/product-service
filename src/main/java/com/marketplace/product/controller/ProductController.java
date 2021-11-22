@@ -53,8 +53,8 @@ public class ProductController {
     }
 
     @PostMapping(path = "/product")
-    public ResponseEntity<Product> createProduct(@Validated @RequestBody PostProductSkuRequest postProductSkuRequest) {
-        return productService.createProduct(postProductSkuRequest);
+    public ResponseEntity<Product> createProduct(@Validated @RequestBody PostProductRequest postProductRequest) {
+        return productService.createProduct(postProductRequest);
     }
 
 }
