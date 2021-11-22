@@ -8,6 +8,8 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
 
 management:
   endpoints:
@@ -21,4 +23,3 @@ management:
           - info
           - metrics
           - prometheus
-

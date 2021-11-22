@@ -22,11 +22,13 @@ public class Keyword {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KEYWORD_ID")
     private Long keywordId;
+    @Column(name = "NAME")
+    @ElementCollection
+    private List<String> name;
 
-    private String name;
-
+    /*
     @ManyToMany(mappedBy = "keywords")
     @JsonBackReference("keywords")
     List<Product> products =new ArrayList<>();
-
+     */
 }

@@ -80,17 +80,13 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<Product> createProduct(ProductRequest productRequest) {
         Product product = productMapper.apply(productRequest);
 
-        if (productRequest.getProductId() != null) {
-            log.error("Product already exists");
-            throw new ProductExistException("Product already exists");
-        } else {
-            return ResponseEntity.ok(productRepository.save(product));
-        }
+        return ResponseEntity.ok(productRepository.save(product));
+
     }
 
     @Override
     public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
-        List<Product> listReserveProduct=new ArrayList<>();
+        List<Product> listReserveProduct = new ArrayList<>();
         Product request = reserveProductMapper.apply(reserveProductRequest);
         Product productSku = productRepository.findBySku(sku);
 
@@ -126,6 +122,7 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<Product> deleteProduct(String sku) {
         Product deleted = productRepository.findBySku(sku);
         productRepository.delete(deleted);
+
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
