@@ -1,24 +1,29 @@
 package com.marketplace.product.service.impl;
 
+<<<<<<< HEAD
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
 import com.marketplace.product.domain.model.Keyword;
+=======
+import com.marketplace.product.controller.request.ProductRequest;
+import com.marketplace.product.controller.request.PutProductSkuRequest;
+import com.marketplace.product.controller.request.ReserveProductRequest;
+import com.marketplace.product.domain.mapper.ProductMapper;
+import com.marketplace.product.domain.mapper.PutProductSkuMapper;
+import com.marketplace.product.domain.mapper.ReserveProductMapper;
+>>>>>>> e294a692483dd88f1a730afac80d1a6e2f95fc6f
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductNotExistException;
-import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import com.marketplace.product.exception.ProductExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -114,7 +119,6 @@ public class ProductServiceImpl implements ProductService {
         Product product;
         if (productRepository.findBySku(sku) != null) {
             product = putProductSkuMapper.apply(request);
-            //productRepository.delete(productRepository.findBySku(request.getSku()));
             return ResponseEntity.ok(productRepository.save(product));
         } else {
             log.error("The product does NOT exist");
