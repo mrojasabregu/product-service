@@ -86,7 +86,6 @@ public class ProductServiceImpl implements ProductService {
             log.info("There are ", actually, " units available");
             throw new InventoryNotNegativeException("No units available");
         }
-
     }
 
     @Override
@@ -103,8 +102,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku) {
-        Product product;
-        product = putProductSkuMapper.apply(request);
+        Product productSku = productRepository.findBySku(sku);
+        Product product = putProductSkuMapper.apply(request);
+
         return ResponseEntity.ok(productRepository.save(product));
     }
 
