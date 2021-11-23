@@ -1,4 +1,5 @@
 package com.marketplace.product.service.impl;
+
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
 
@@ -6,6 +7,7 @@ import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
+import com.marketplace.product.exception.InventoryNotNegativeException;
 import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -70,13 +73,20 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
 
         Product productSku = productRepository.findBySku(sku);
-
         Integer actually = productSku.getUnitAvailable();
-        Integer cancel = reserveProductRequest.getAmountToReserve();
+        Integer reserve = reserveProductRequest.getAmountToReserve();
 
-        productSku.setUnitAvailable(actually - cancel);
+        productSku.setUnitAvailable(actually - reserve);
 
-        return ResponseEntity.ok(Collections.singletonList(productRepository.save(productSku)));
+        if ((actually - reserve) > 0) {
+            productSku.setUnitAvailable(actually - reserve);
+            return ResponseEntity.ok(Collections.singletonList(productRepository.save(productSku)));
+        } else {
+            log.error("No units available");
+            log.info("There are ", actually, " units available");
+            throw new InventoryNotNegativeException("No units available");
+        }
+
     }
 
     @Override
