@@ -6,16 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductRequest {
+public class PostProductRequest {
 
     Long productId;
     @NotBlank(message = "El campo sku no puede ser null o vacio.")
@@ -37,4 +36,5 @@ public class ProductRequest {
     String brand;
     Integer amountToReserve;
     Integer amountToCancel;
+
 }

@@ -15,7 +15,7 @@ public interface ProductService {
 
     ResponseEntity<Set<Product>> getKeywords(List<String> keywords);
 
-    ResponseEntity<Product> createProduct(PostProductSkuRequest postProductSkuRequest);
+    ResponseEntity<Product> createProduct(PostProductRequest postProductRequest);
 
     ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest productRequest, String sku);
 
