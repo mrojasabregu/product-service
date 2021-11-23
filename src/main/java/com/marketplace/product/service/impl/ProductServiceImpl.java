@@ -1,6 +1,4 @@
 package com.marketplace.product.service.impl;
-
-
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
 
@@ -8,11 +6,11 @@ import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
-
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
 import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.exception.ProductNotExistException;
+import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,16 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
-
 
     @Autowired
     private PutProductSkuMapper putProductSkuMapper;
@@ -46,7 +43,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CancelReserveProductMapper cancelReserveProductMapper;
 
-    @Override
+    @Autowired
+    private KeywordRepository keywordRepository;
+
     public ResponseEntity<List<Product>> getProducts() {
         //Iterable to List
         List<Product> products = StreamSupport
@@ -54,6 +53,11 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(products);
+    }
+    @Override
+    public ResponseEntity<Set<Product>> getKeywords(List<String> keywords) {
+
+        return ResponseEntity.ok(productRepository.findByKeywords(keywords));
     }
 
     @Override
@@ -96,10 +100,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
-    public ResponseEntity<Product> getProducts(List<String> keywords) {
-        return null;
-    }
+
 
     @Override
     public ResponseEntity<Product> createProduct(PostProductRequest postProductRequest) {
@@ -134,9 +135,4 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-    @Override
-    public ResponseEntity<List<Product>> getKeywords(List<String> keywords) {
-
-        return ResponseEntity.ok(productRepository.findByKeywords(keywords));
-    }
 }

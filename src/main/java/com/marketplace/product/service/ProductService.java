@@ -4,15 +4,16 @@ import com.marketplace.product.domain.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface ProductService {
 
-    ResponseEntity<List<Product>> getProducts();
+    ResponseEntity<Set<Product>> getKeywords(List<String> keywords);
 
     ResponseEntity<Product> cancelReserve(CancelReserveProductRequest cancelReserveProductRequest, String sku);
 
-    ResponseEntity<Product> getProducts(List<String> keywords);
+    ResponseEntity<List<Product>> getProducts();
 
     ResponseEntity<Product> createProduct(PostProductRequest postProductRequest);
 
@@ -26,5 +27,7 @@ public interface ProductService {
 
     ResponseEntity<Product> postProductBulk();
 
-    ResponseEntity<List<Product>> getKeywords(List<String> keywords);
+
+
+
 }

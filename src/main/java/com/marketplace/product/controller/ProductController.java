@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -84,8 +85,10 @@ public class ProductController {
     }
 
     @GetMapping(path = "/product/keyword")
-    public ResponseEntity<List<Product>> getKeywords(@RequestParam(value = "keys") List<String> keywords) {
+    public ResponseEntity<Set<Product>> getKeywords(@RequestParam (value = "keys") List<String> keywords){
+
         return productService.getKeywords(keywords);
     }
+
 
 }
