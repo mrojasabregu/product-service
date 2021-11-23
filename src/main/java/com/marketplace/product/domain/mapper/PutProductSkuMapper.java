@@ -11,11 +11,9 @@ import java.util.function.Function;
 
 @Component
 public class PutProductSkuMapper implements Function<PutProductSkuRequest, Product> {
-    @Autowired
-    private ProductRepository productRepository;
 
     public Product apply(PutProductSkuRequest putProductSkuRequest) {
-        
+
         return Product.builder()
                 .productId(putProductSkuRequest.getProductId())
                 .name(putProductSkuRequest.getName())
@@ -28,8 +26,6 @@ public class PutProductSkuMapper implements Function<PutProductSkuRequest, Produ
                 .sku(putProductSkuRequest.getSku())
                 .unitAvailable(putProductSkuRequest.getUnitAvailable())
                 .weight(putProductSkuRequest.getWeight())
-                //.amountToReserve(product.getAmountToReserve())
-                //.amountToCancel(product.getAmountToCancel())
                 .build();
     }
 }

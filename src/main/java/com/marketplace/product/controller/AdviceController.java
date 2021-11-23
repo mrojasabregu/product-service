@@ -31,7 +31,7 @@ public class AdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ProductExistException.class , ProductNotExistException.class})
+    @ExceptionHandler({ProductExistException.class, ProductNotExistException.class})
     public Map<String, String> handlerValidationException(ProductExistException ex) {
         Map<String, String> errors = new HashMap<>();
         String fieldName = "Error: ";

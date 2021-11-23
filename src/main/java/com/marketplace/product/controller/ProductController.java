@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -58,7 +57,7 @@ public class ProductController {
 
     @PutMapping(path = "/product/{sku}")
     public ResponseEntity<Product> editProduct(@Validated @RequestBody PutProductSkuRequest productRequest, @PathVariable("sku") String sku) {
-        if (productRepository.findBySku(sku) != null) {
+        if (sku != null) {
             return productService.putProductSku(productRequest, sku);
         } else {
             log.error("The product does NOT exist");
@@ -87,7 +86,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/product/keyword")
-    public ResponseEntity<Set<Product>> getKeywords(@RequestParam (value = "keys") List<String> keywords){
+    public ResponseEntity<Set<Product>> getKeywords(@RequestParam(value = "keys") List<String> keywords) {
 
         return productService.getKeywords(keywords);
     }
