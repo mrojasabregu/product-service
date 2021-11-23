@@ -15,9 +15,7 @@ public class PutProductSkuMapper implements Function<PutProductSkuRequest, Produ
     private ProductRepository productRepository;
 
     public Product apply(PutProductSkuRequest putProductSkuRequest) {
-
-       // Product product = productRepository.findBySku(putProductSkuRequest.getSku());
-
+        
         return Product.builder()
                 .productId(putProductSkuRequest.getProductId())
                 .name(putProductSkuRequest.getName())

@@ -12,7 +12,7 @@ public class PostProductMapper implements Function<PostProductRequest, Product> 
     @Override
     public Product apply(PostProductRequest postProductRequest) {
         return Product.builder()
-                .productId(postProductRequest.getProductId())
+                //.productId(postProductRequest.getProductId())
                 .name(postProductRequest.getName())
                 .brand(postProductRequest.getBrand())
                 .category(postProductRequest.getCategory())
@@ -23,8 +23,8 @@ public class PostProductMapper implements Function<PostProductRequest, Product> 
                 .sku(postProductRequest.getSku())
                 .unitAvailable(postProductRequest.getUnitAvailable())
                 .weight(postProductRequest.getWeight())
-                .amountToReserve(postProductRequest.getAmountToReserve())
-                .amountToCancel(postProductRequest.getAmountToCancel())
+                //.amountToReserve(postProductRequest.getAmountToReserve())
+                //.amountToCancel(postProductRequest.getAmountToCancel())
                 .build();
     }
 }

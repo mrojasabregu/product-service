@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 public class PostProductRequest {
 
-    Long productId;
     @NotBlank(message = "El campo sku no puede ser null o vacio.")
     String sku;
     @NotBlank(message = "El campo name no puede ser null o vacio.")
@@ -34,7 +33,4 @@ public class PostProductRequest {
     @NotBlank(message = "El campo category no puede ser null o vacio.")
     String category;
     String brand;
-    Integer amountToReserve;
-    Integer amountToCancel;
-
 }
