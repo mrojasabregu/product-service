@@ -25,4 +25,6 @@ public interface ProductService {
     ResponseEntity<Product> deleteProduct(String sku);
 
     ResponseEntity<Product> postProductBulk();
+
+    ResponseEntity<List<Product>> getKeywords(List<String> keywords);
 }

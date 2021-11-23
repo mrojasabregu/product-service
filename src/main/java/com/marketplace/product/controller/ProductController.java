@@ -32,7 +32,7 @@ public class ProductController {
     public ResponseEntity<Product> cancelProduct(@Validated @RequestBody CancelReserveProductRequest cancelReserveProductRequest, @PathVariable("sku") String sku) {
         if (cancelReserveProductRequest.getSku() != null) {
             return productService.cancelReserve(cancelReserveProductRequest, sku);
-        } else{
+        } else {
             log.error("Product not found");
             throw new ProductNotExistException("Product not found");
         }
@@ -42,7 +42,7 @@ public class ProductController {
     public ResponseEntity<List<Product>> reserveProduct(@Validated @RequestBody ReserveProductRequest reserveProductRequest, @PathVariable("sku") String sku) {
         if (reserveProductRequest.getSku() != null) {
             return productService.reserveProduct(reserveProductRequest, sku);
-        } else{
+        } else {
             log.error("Product not found");
             throw new ProductNotExistException("Product not found");
         }
@@ -78,11 +78,14 @@ public class ProductController {
         if (productRepository.findBySku(postProductRequest.getSku()) != null) {
             log.error("The sku already exist");
             throw new ProductExistException("The sku already exist");
-        }else {
+        } else {
             return productService.createProduct(postProductRequest);
         }
+    }
 
-
+    @GetMapping(path = "/product/keyword")
+    public ResponseEntity<List<Product>> getKeywords(@RequestParam(value = "keys") List<String> keywords) {
+        return productService.getKeywords(keywords);
     }
 
 }

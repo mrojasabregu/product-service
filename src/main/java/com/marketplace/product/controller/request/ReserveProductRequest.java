@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -28,6 +29,7 @@ public class ReserveProductRequest {
     String category;
     String brand;
     @NotNull(message = "El campo amountToReserve no puede ser null o vacio.")
+    @Min(value = 0, message = "The value must be positive")
     Integer amountToReserve;
     Integer amountToCancel;
 }

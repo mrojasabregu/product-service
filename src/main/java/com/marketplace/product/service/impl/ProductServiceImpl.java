@@ -10,6 +10,7 @@ import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
 
 import com.marketplace.product.domain.model.Product;
+import com.marketplace.product.exception.InventoryNotNegativeException;
 import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.ProductRepository;
@@ -77,9 +78,22 @@ public class ProductServiceImpl implements ProductService {
         Integer actually = productSku.getUnitAvailable();
         Integer reserve = request.getAmountToReserve();
 
+        /*
+        if ((actually - reserve) > 0) {
+            productSku.setUnitAvailable(actually - reserve);
+            return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
+        }else {
+            log.error("No units available");
+            log.info("Hay ", actually, " unidades disponibles");
+            throw new InventoryNotNegativeException("No units available");
+        }
+        */
+
         productSku.setUnitAvailable(actually - reserve);
 
         return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
+
+
     }
 
     @Override
@@ -118,5 +132,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<Product> postProductBulk() {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<List<Product>> getKeywords(List<String> keywords) {
+
+        return ResponseEntity.ok(productRepository.findByKeywords(keywords));
     }
 }
