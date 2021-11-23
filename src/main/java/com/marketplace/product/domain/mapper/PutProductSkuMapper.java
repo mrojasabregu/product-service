@@ -16,10 +16,10 @@ public class PutProductSkuMapper implements Function<PutProductSkuRequest, Produ
 
     public Product apply(PutProductSkuRequest putProductSkuRequest) {
 
-        Product product = productRepository.findBySku(putProductSkuRequest.getSku());
+       // Product product = productRepository.findBySku(putProductSkuRequest.getSku());
 
         return Product.builder()
-                .productId(product.getProductId())
+                .productId(putProductSkuRequest.getProductId())
                 .name(putProductSkuRequest.getName())
                 .brand(putProductSkuRequest.getBrand())
                 .category(putProductSkuRequest.getCategory())
@@ -30,8 +30,8 @@ public class PutProductSkuMapper implements Function<PutProductSkuRequest, Produ
                 .sku(putProductSkuRequest.getSku())
                 .unitAvailable(putProductSkuRequest.getUnitAvailable())
                 .weight(putProductSkuRequest.getWeight())
-                .amountToReserve(product.getAmountToReserve())
-                .amountToCancel(product.getAmountToCancel())
+                //.amountToReserve(product.getAmountToReserve())
+                //.amountToCancel(product.getAmountToCancel())
                 .build();
     }
 }

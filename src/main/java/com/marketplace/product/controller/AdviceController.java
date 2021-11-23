@@ -1,6 +1,7 @@
 package com.marketplace.product.controller;
 
 import com.marketplace.product.exception.ProductExistException;
+import com.marketplace.product.exception.ProductNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,7 +30,7 @@ public class AdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ProductExistException.class})
+    @ExceptionHandler({ProductExistException.class , ProductNotExistException.class})
     public Map<String, String> handlerValidationException(ProductExistException ex) {
         Map<String, String> errors = new HashMap<>();
         String fieldName = "Error: ";

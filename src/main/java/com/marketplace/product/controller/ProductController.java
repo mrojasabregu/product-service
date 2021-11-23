@@ -31,7 +31,7 @@ public class ProductController {
 
     @PostMapping(path = "/product/{sku}/stock/cancelReserve")
     public ResponseEntity<Product> cancelProduct(@Validated @RequestBody CancelReserveProductRequest cancelReserveProductRequest, @PathVariable("sku") String sku) {
-        if (cancelReserveProductRequest.getSku() != null) {
+        if (sku != null) {
             return productService.cancelReserve(cancelReserveProductRequest, sku);
         } else {
             log.error("Product not found");
@@ -41,7 +41,7 @@ public class ProductController {
 
     @PostMapping(path = "/product/{sku}/stock/reserve")
     public ResponseEntity<List<Product>> reserveProduct(@Validated @RequestBody ReserveProductRequest reserveProductRequest, @PathVariable("sku") String sku) {
-        if (reserveProductRequest.getSku() != null) {
+        if (sku != null) {
             return productService.reserveProduct(reserveProductRequest, sku);
         } else {
             log.error("Product not found");

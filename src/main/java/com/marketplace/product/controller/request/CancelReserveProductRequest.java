@@ -16,19 +16,6 @@ import java.util.List;
 @Data
 public class CancelReserveProductRequest {
 
-    Long productId;
-    @NotBlank(message = "El campo sku no puede ser null o vacio.")
-    String sku;
-    String name;
-    String description;
-    List<Keyword> keywords;
-    Double price;
-    String imgUrl;
-    Integer unitAvailable;
-    Double weight;
-    String category;
-    String brand;
-    Integer amountToReserve;
     @NotNull(message = "El campo amountToCancel no puede ser null o vacio.")
     Integer amountToCancel;
 
