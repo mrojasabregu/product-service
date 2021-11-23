@@ -25,7 +25,7 @@ public interface ProductService {
 
     ResponseEntity<Product> deleteProduct(String sku);
 
-    ResponseEntity<Product> postProductBulk();
+    List<Product> postProductBulk(List<Product> p);
 
 
 

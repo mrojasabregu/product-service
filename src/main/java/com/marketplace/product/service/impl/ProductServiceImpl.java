@@ -7,9 +7,6 @@ import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
 import com.marketplace.product.domain.model.Product;
-import com.marketplace.product.exception.InventoryNotNegativeException;
-import com.marketplace.product.exception.ProductExistException;
-import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
@@ -131,8 +128,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> postProductBulk() {
-        return null;
+    public List<Product> postProductBulk(List<Product> p){
+        return (List<Product>) productRepository.saveAll(p);
     }
 
 }
