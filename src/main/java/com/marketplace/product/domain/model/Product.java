@@ -1,15 +1,13 @@
 package com.marketplace.product.domain.model;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,9 +34,8 @@ public class Product {
     private Integer amountToReserve;
     private Integer amountToCancel;
 
-    
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "PRODUCT_KEYWORD",joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
+    @JoinTable(name = "PRODUCT_KEYWORD", joinColumns = {@JoinColumn(name = "PRODUCT_ID")},
             inverseJoinColumns = {@JoinColumn(name = "KEYWORD_ID")})
     List<Keyword> keywords = new ArrayList<>();
 
