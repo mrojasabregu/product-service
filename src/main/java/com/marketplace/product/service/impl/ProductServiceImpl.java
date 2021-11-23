@@ -82,21 +82,21 @@ public class ProductServiceImpl implements ProductService {
         Integer actually = productSku.getUnitAvailable();
         Integer reserve = request.getAmountToReserve();
 
-        /*
         if ((actually - reserve) > 0) {
             productSku.setUnitAvailable(actually - reserve);
             return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
         }else {
             log.error("No units available");
-            log.info("Hay ", actually, " unidades disponibles");
+            log.info("There are ", actually, " units available");
             throw new InventoryNotNegativeException("No units available");
         }
-        */
 
+        /*
         productSku.setUnitAvailable(actually - reserve);
 
         return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
 
+         */
 
     }
 

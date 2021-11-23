@@ -1,5 +1,6 @@
 package com.marketplace.product.controller;
 
+import com.marketplace.product.exception.InventoryNotNegativeException;
 import com.marketplace.product.exception.ProductExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -31,6 +32,15 @@ public class AdviceController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ProductExistException.class})
     public Map<String, String> handlerValidationException(ProductExistException ex) {
+        Map<String, String> errors = new HashMap<>();
+        String fieldName = "Error: ";
+        errors.put(fieldName, ex.getMessage());
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({InventoryNotNegativeException.class})
+    public Map<String, String> handlerValidationException(InventoryNotNegativeException ex) {
         Map<String, String> errors = new HashMap<>();
         String fieldName = "Error: ";
         errors.put(fieldName, ex.getMessage());
