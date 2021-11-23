@@ -1,19 +1,15 @@
 package com.marketplace.product.service.impl;
 
-<<<<<<< HEAD
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
-import com.marketplace.product.domain.model.Keyword;
-=======
-import com.marketplace.product.controller.request.ProductRequest;
 import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.ProductMapper;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.mapper.ReserveProductMapper;
->>>>>>> e294a692483dd88f1a730afac80d1a6e2f95fc6f
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductNotExistException;
+import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -49,8 +44,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CancelReserveProductMapper cancelReserveProductMapper;
 
+    @Autowired
+    private KeywordRepository keywordRepository;
+
     @Override
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<List<Product>> getKeywords() {
         //Iterable to List
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
@@ -72,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
             productSku.setUnitAvailable(actually + cancel);
 
             return ResponseEntity.ok(productRepository.save(productSku));
-        } else{
+        } else {
             log.error("Product not found");
             throw new ProductNotExistException("Product not found");
         }
@@ -80,8 +78,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> getProducts(List<String> keywords) {
-        return null;
+    public ResponseEntity<Set<Product>> getKeywords(List<String> keywords) {
+
+        return ResponseEntity.ok(productRepository.findByKeywords(keywords));
     }
 
     @Override
@@ -102,8 +101,8 @@ public class ProductServiceImpl implements ProductService {
 
             productSku.setUnitAvailable(actually - reserve);
 
-            return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
-        } else{
+            return ResponseEntity.ok(Collections.singletonList(productRepository.save(productSku)));
+        } else {
             log.error("Product not found");
             throw new ProductNotExistException("Product not found");
         }

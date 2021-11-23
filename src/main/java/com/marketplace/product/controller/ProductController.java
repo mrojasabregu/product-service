@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -49,12 +50,19 @@ public class ProductController {
 
     @GetMapping(path = "/products")
     public ResponseEntity<List<Product>> getProduct() {
-        return productService.getProducts();
+        return productService.getKeywords();
     }
 
     @PostMapping(path = "/product")
     public ResponseEntity<Product> createProduct(@Validated @RequestBody PostProductSkuRequest postProductSkuRequest) {
         return productService.createProduct(postProductSkuRequest);
     }
+
+    @GetMapping(path = "/product/keyword")
+    public ResponseEntity<Set<Product>> getKeywords(@RequestParam (value = "keys") List<String> keywords){
+
+        return productService.getKeywords(keywords);
+    }
+
 
 }
