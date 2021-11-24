@@ -94,10 +94,10 @@ public class ProductController {
     }
 
     @RequestMapping(path = "/product/bulk", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String postProductBulk (@RequestBody List<Product> bulkProductRequests){
-        if (bulkProductRequests != null && !bulkProductRequests.isEmpty() /*&& !bulkProductRequests.stream().forEach(::getSku)*/){
+    public String postProductBulk (@RequestBody List<BulkProductRequest> bulkProductRequests){
+        if (bulkProductRequests != null && !bulkProductRequests.isEmpty()){
             productService.postProductBulk(bulkProductRequests);
-            return String.format("Added %d product.", bulkProductRequests.size());
+            return "Mass creation done";
         }else {
             return REQUEST_NO_BODY;
         }
