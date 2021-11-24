@@ -25,7 +25,7 @@ public interface ProductService {
 
     ResponseEntity<Product> deleteProduct(String sku);
 
-    List<Product> postProductBulk(List<Product> p);
+    void postProductBulk(List<BulkProductRequest> bulkProductRequests);
 
 
 

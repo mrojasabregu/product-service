@@ -1,5 +1,6 @@
 package com.marketplace.product.controller.request;
 import com.marketplace.product.domain.model.Keyword;
+import com.marketplace.product.domain.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
