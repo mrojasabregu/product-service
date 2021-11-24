@@ -1,12 +1,13 @@
 package com.marketplace.product.service.impl;
+
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
 
 import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
-import com.marketplace.product.domain.mapper.ReserveProductMapper;
 import com.marketplace.product.domain.model.Product;
+import com.marketplace.product.exception.InventoryNotNegativeException;
 import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,16 +32,11 @@ public class ProductServiceImpl implements ProductService {
     private PutProductSkuMapper putProductSkuMapper;
 
     @Autowired
-    private ReserveProductMapper reserveProductMapper;
-
-    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private PostProductMapper postProductMapper;
 
-    @Autowired
-    private CancelReserveProductMapper cancelReserveProductMapper;
 
     @Autowired
     private KeywordRepository keywordRepository;
@@ -51,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
         return ResponseEntity.ok(products);
     }
+
     @Override
     public ResponseEntity<Set<Product>> getKeywords(List<String> keywords) {
 
@@ -59,11 +58,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Product> cancelReserve(CancelReserveProductRequest cancelReserveProductRequest, String sku) {
-        Product request = cancelReserveProductMapper.apply(cancelReserveProductRequest);
+
         Product productSku = productRepository.findBySku(sku);
 
         Integer actually = productSku.getUnitAvailable();
-        Integer cancel = request.getAmountToCancel();
+        Integer cancel = cancelReserveProductRequest.getAmountToCancel();
 
         productSku.setUnitAvailable(actually + cancel);
 
@@ -73,38 +72,27 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {
 
-        Product request = reserveProductMapper.apply(reserveProductRequest);
         Product productSku = productRepository.findBySku(sku);
-
         Integer actually = productSku.getUnitAvailable();
-        Integer reserve = request.getAmountToReserve();
-
-        /*
-        if ((actually - reserve) > 0) {
-            productSku.setUnitAvailable(actually - reserve);
-            return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
-        }else {
-            log.error("No units available");
-            log.info("Hay ", actually, " unidades disponibles");
-            throw new InventoryNotNegativeException("No units available");
-        }
-        */
+        Integer reserve = reserveProductRequest.getAmountToReserve();
 
         productSku.setUnitAvailable(actually - reserve);
 
-        return ResponseEntity.ok(Arrays.asList(productRepository.save(productSku)));
-
-
+        if ((actually - reserve) > 0) {
+            productSku.setUnitAvailable(actually - reserve);
+            return ResponseEntity.ok(Collections.singletonList(productRepository.save(productSku)));
+        } else {
+            log.error("No units available");
+            log.info("There are ", actually, " units available");
+            throw new InventoryNotNegativeException("No units available");
+        }
     }
-
-
 
     @Override
     public ResponseEntity<Product> createProduct(PostProductRequest postProductRequest) {
 
         Product product = postProductMapper.apply(postProductRequest);
         return ResponseEntity.ok(productRepository.save(product));
-
     }
 
     @Override
@@ -114,8 +102,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku) {
-        Product product;
-        product = putProductSkuMapper.apply(request);
+        Product productSku = productRepository.findBySku(sku);
+        Product product = putProductSkuMapper.apply(request);
+
         return ResponseEntity.ok(productRepository.save(product));
     }
 

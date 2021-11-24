@@ -26,6 +26,5 @@ public class PutProductSkuRequest {
     Double weight;
     String category;
     String brand;
-    Integer amountToReserve;
-    Integer amountToCancel;
+
 }

@@ -1,5 +1,6 @@
 package com.marketplace.product.controller;
 
+import com.marketplace.product.exception.InventoryNotNegativeException;
 import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.exception.ProductNotExistException;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class AdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ProductExistException.class})
+    @ExceptionHandler({ProductExistException.class, ProductNotExistException.class})
     public Map<String, String> handlerValidationException(ProductExistException ex) {
         Map<String, String> errors = new HashMap<>();
         String fieldName = "Error: ";
@@ -39,8 +40,8 @@ public class AdviceController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ProductNotExistException.class})
-    public Map<String, String> handlerValidationException(ProductNotExistException ex) {
+    @ExceptionHandler({InventoryNotNegativeException.class})
+    public Map<String, String> handlerValidationException(InventoryNotNegativeException ex) {
         Map<String, String> errors = new HashMap<>();
         String fieldName = "Error: ";
         errors.put(fieldName, ex.getMessage());
