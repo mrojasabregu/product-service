@@ -31,12 +31,22 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping(path = "/product/{sku}/stock/cancelReserve")
-    public ResponseEntity<Product> cancelProduct(@Validated @RequestBody CancelReserveProductRequest cancelReserveProductRequest, @PathVariable("sku") String sku) {
-        if (sku != null) {
-            return productService.cancelReserve(cancelReserveProductRequest, sku);
+    public ResponseEntity<Product> cancelProduct(@Validated @RequestBody List<CancelReserveProductRequest> cancelRequests) {
+        if (cancelRequests != null &&! cancelRequests.isEmpty ()) {
+            return productService.cancelReserve(cancelRequests);
         } else {
             log.error("Product not found");
             throw new ProductNotExistException("Product not found");
+        }
+    }
+
+    @PostMapping ("bulk")
+    public String addPeople (@RequestBody List <Persona> personas) {
+        if (people! = Null &&! People.isEmpty ()) {
+            peopleService.insertAll (personas);
+            return String.format ("Añadidas% d personas.", people.size ());
+        } else {
+            return REQUEST_NO_BODY;
         }
     }
 

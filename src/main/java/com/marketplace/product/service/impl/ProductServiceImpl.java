@@ -17,10 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -57,16 +54,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> cancelReserve(CancelReserveProductRequest cancelReserveProductRequest, String sku) {
+    public ResponseEntity<Product> cancelReserve(List<CancelReserveProductRequest> cancelReserveProductRequest) {
+        List<Product> listProductSku = new ArrayList<>();
+        cancelReserveProductRequest.forEach( (product) -> {
 
-        Product productSku = productRepository.findBySku(sku);
+            Product productSku = productRepository.findBySku(product.getSku());
+            Integer actually = productSku.getUnitAvailable();
+            Integer cancel = product.getAmountToCancel();
 
+            productSku.setUnitAvailable(actually + cancel);
+
+            listProductSku.add(productRepository.findBySku(product.getSku()));
+
+            ResponseEntity.ok(productRepository.save(productSku));
+            
+        });
+
+        /*
         Integer actually = productSku.getUnitAvailable();
         Integer cancel = cancelReserveProductRequest.getAmountToCancel();
 
         productSku.setUnitAvailable(actually + cancel);
 
         return ResponseEntity.ok(productRepository.save(productSku));
+        */
+
     }
 
     @Override

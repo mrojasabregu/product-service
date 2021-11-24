@@ -21,7 +21,7 @@ public class PostProductMapper implements Function<PostProductRequest, Product> 
                 .price(postProductRequest.getPrice())
                 .sku(postProductRequest.getSku())
                 .unitAvailable(postProductRequest.getUnitAvailable())
-                .weight(postProductRequest.getWeight()
-                        .build();
+                .weight(postProductRequest.getWeight())
+                .build();
     }
 }
