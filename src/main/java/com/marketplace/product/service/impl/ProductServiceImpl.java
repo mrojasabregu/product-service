@@ -117,8 +117,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> postProductBulk() {
-        return null;
+    public List<Product> postProductBulk(List<Product> p){
+        return (List<Product>) productRepository.saveAll(p);
     }
 
 }
