@@ -114,7 +114,7 @@ paths:
         "405":
           description: "Validation exception"
   
-  /product/{sku}/stock/cancelReserve:
+  /product/stock/cancelReserve:
     post:
       tags:
       - "Product"
@@ -126,11 +126,6 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "sku"
-        in: "path"
-        description: "reserve that need to be update"
-        required: true
-        type: "number"
       - in: "body"
         name: "body"
         description: "Product object that needs to be added to the store"
@@ -196,7 +191,7 @@ paths:
         "200":
           description: "succesful operation"
           schema:
-            $ref: "#/definitions/ProductSkuRequest"
+            $ref: "#/definitions/ProductResponse"
         "400":
           description: "Invalid user supplied"
         "404":
@@ -300,6 +295,23 @@ definitions:
         type: "string"
         example: "Bangho"
   
+
+  
+  KeywordResponse:
+    type: "object"
+    required:
+      - "keywordId"
+      - "name"
+    properties: 
+      keywordId:
+        type: "number"
+        example: 1
+      name:
+        type: "array"
+        example: "computadora,hp,3GB"
+        items:
+          type: string
+        
   
   ProductResponse:
     type: "object"
@@ -315,7 +327,7 @@ definitions:
       keywords:
         type: "array"
         items:
-          type: string
+          $ref: "#/definitions/KeywordResponse"
       price:
         type: "number"
         format: "doble"
@@ -334,13 +346,15 @@ definitions:
   ReserveProductRequest:
     type: "object"
     properties: 
-      sku:
-        type: "string"
       amountToReserve:
         type: "number"
         
   CancelReserveProductRequest:      
-    type: "object"
+    type: "array"
+    items:
+      $ref: "#/definitions/CancelReserve"
+      
+  CancelReserve:
     properties: 
       sku:
         type: "string"
@@ -350,7 +364,7 @@ definitions:
   ListOfProducts:
     type: "array"
     items:
-      $ref: "#/definitions/ProductResponse"
+      $ref: "#/definitions/ProductSkuRequest"
       
   ErrorNotFoundResponse:
     type: "object"
