@@ -8,6 +8,7 @@ import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
+import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
@@ -54,31 +55,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> cancelReserve(List<CancelReserveProductRequest> cancelReserveProductRequest) {
+    public void cancelReserve(List<CancelReserveProductRequest> cancelRequests) {
+
+
         List<Product> listProductSku = new ArrayList<>();
-        cancelReserveProductRequest.forEach( (product) -> {
+        cancelRequests.forEach((product) -> {
+                    if (productRepository.findBySku(product.getSku()) != null) {
+                        Product productSku = productRepository.findBySku(product.getSku());
+                        Integer actually = productSku.getUnitAvailable();
+                        Integer cancel = product.getAmountToCancel();
 
-            Product productSku = productRepository.findBySku(product.getSku());
-            Integer actually = productSku.getUnitAvailable();
-            Integer cancel = product.getAmountToCancel();
+                        productSku.setUnitAvailable(actually + cancel);
 
-            productSku.setUnitAvailable(actually + cancel);
+                        listProductSku.add(productSku);
 
-            listProductSku.add(productRepository.findBySku(product.getSku()));
 
-            ResponseEntity.ok(productRepository.save(productSku));
-            
-        });
+                    } else {
+                        log.info("next sku not found: " + product.getSku());
+                    }
+                }
 
-        /*
-        Integer actually = productSku.getUnitAvailable();
-        Integer cancel = cancelReserveProductRequest.getAmountToCancel();
+        );
 
-        productSku.setUnitAvailable(actually + cancel);
-
-        return ResponseEntity.ok(productRepository.save(productSku));
-        */
-
+        productRepository.saveAll(listProductSku);
+        log.info(String.format("canceled %d product.", listProductSku.size()));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
             return ResponseEntity.ok(Collections.singletonList(productRepository.save(productSku)));
         } else {
             log.error("No units available");
-            log.info("There are ", actually, " units available");
+            log.info("There are "+  actually + " units available");
             throw new InventoryNotNegativeException("No units available");
         }
     }
@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> postProductBulk(List<Product> p){
+    public List<Product> postProductBulk(List<Product> p) {
         return (List<Product>) productRepository.saveAll(p);
     }
 
