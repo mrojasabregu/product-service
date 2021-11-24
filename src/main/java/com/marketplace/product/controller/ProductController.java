@@ -32,7 +32,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping(path = "/product/{sku}/stock/cancelReserve")
+    @PostMapping(path = "/product/stock/cancelReserve")
     public String cancelProduct(@Validated @RequestBody List<CancelReserveProductRequest> cancelRequests) {
         if (cancelRequests != null &&! cancelRequests.isEmpty ()) {
             productService.cancelReserve(cancelRequests);
