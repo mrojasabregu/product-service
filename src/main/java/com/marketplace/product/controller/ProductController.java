@@ -9,10 +9,10 @@ import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +23,8 @@ import org.springframework.validation.annotation.Validated;
 @RestController
 @RequestMapping("/")
 public class ProductController {
+
+    private static final String REQUEST_NO_BODY = "Request does not contain a body";
 
     @Autowired
     private ProductRepository productRepository;
@@ -101,5 +103,13 @@ public class ProductController {
         return productService.getKeywords(keywords);
     }
 
-
+    @RequestMapping(path = "/product/bulk", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String postProductBulk (@RequestBody List<Product> bulkProductRequests){
+        if (bulkProductRequests != null && !bulkProductRequests.isEmpty() /*&& !bulkProductRequests.stream().forEach(::getSku)*/){
+            productService.postProductBulk(bulkProductRequests);
+            return String.format("Added %d product.", bulkProductRequests.size());
+        }else {
+            return REQUEST_NO_BODY;
+        }
+    }
 }
