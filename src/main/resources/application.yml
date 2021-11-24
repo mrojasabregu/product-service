@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: product
+  datasource:
+    url: jdbc:mysql://35.222.177.16:3308/db_product_service
+    username: root
+    password: password
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
