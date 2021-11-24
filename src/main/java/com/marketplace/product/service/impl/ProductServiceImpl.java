@@ -8,7 +8,6 @@ import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
-import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +36,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BulkProductMapper bulkProductMapper;
 
-
-    @Autowired
-    private KeywordRepository keywordRepository;
 
     public ResponseEntity<List<Product>> getProducts() {
         //Iterable to List
