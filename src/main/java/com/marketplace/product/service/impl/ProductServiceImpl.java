@@ -8,7 +8,7 @@ import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
-import com.marketplace.product.repositories.KeywordRepository;
+
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +34,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private PostProductMapper postProductMapper;
 
-
     @Autowired
-    private KeywordRepository keywordRepository;
+    private BulkProductMapper bulkProductMapper;
+
 
     public List<Product> getProducts() {
         //Iterable to List
@@ -94,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
             return ResponseEntity.ok(Collections.singletonList(productRepository.save(productSku)));
         } else {
             log.error("No units available");
-            log.info("There are "+  actually + " units available");
+            log.info("There are " + actually + " units available");
             throw new InventoryNotNegativeException("No units available");
         }
     }
@@ -128,8 +128,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> postProductBulk(List<Product> p) {
-        return (List<Product>) productRepository.saveAll(p);
-    }
+    public void postProductBulk(List<BulkProductRequest> bulkProductRequests) {
+        List<Product> productsList = new ArrayList<>();
 
+        if (bulkProductRequests != null && !bulkProductRequests.isEmpty()) {
+            bulkProductRequests.forEach((product) -> {
+                if (productRepository.findBySku(product.getSku()) != null) {
+                    log.info("next, existing sku" + product.getSku());
+                } else {
+
+                    productsList.add(bulkProductMapper.apply(product));
+                }
+            });
+            productRepository.saveAll(productsList);
+            log.info(String.format("added %d product.", productsList.size()));
+        }
+
+    }
 }

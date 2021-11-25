@@ -35,10 +35,11 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+
     @Autowired
     public ProductResponseMapper productResponseMapper;
 
-    @PostMapping(path = "/product/{sku}/stock/cancelReserve")
+    @PostMapping(path = "/product/stock/cancelReserve")
     public String cancelProduct(@Validated @RequestBody List<CancelReserveProductRequest> cancelRequests) {
         if (cancelRequests != null &&! cancelRequests.isEmpty ()) {
             productService.cancelReserve(cancelRequests);
@@ -104,10 +105,10 @@ public class ProductController {
     }
 
     @RequestMapping(path = "/product/bulk", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String postProductBulk (@RequestBody List<Product> bulkProductRequests){
-        if (bulkProductRequests != null && !bulkProductRequests.isEmpty() /*&& !bulkProductRequests.stream().forEach(::getSku)*/){
+    public String postProductBulk (@RequestBody List<BulkProductRequest> bulkProductRequests){
+        if (bulkProductRequests != null && !bulkProductRequests.isEmpty()){
             productService.postProductBulk(bulkProductRequests);
-            return String.format("Added %d product.", bulkProductRequests.size());
+            return "Mass creation done";
         }else {
             return REQUEST_NO_BODY;
         }
