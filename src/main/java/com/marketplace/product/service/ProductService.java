@@ -11,7 +11,7 @@ public interface ProductService {
 
     ResponseEntity<Set<Product>> getKeywords(List<String> keywords);
 
-    void cancelReserve(List<CancelReserveProductRequest> cancelReserveProductRequest);
+    String cancelReserve(List<CancelReserveProductRequest> cancelReserveProductRequest);
 
     List<Product> getProducts();
 
