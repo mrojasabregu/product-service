@@ -27,6 +27,12 @@ _Acá va un párrafo que describa lo que es el proyecto_
 
 - Get Products By Keywords
   - 34.134.13.53/product/keyword?keys=mac,book,pro
+
+### Docker Local Commands 
+
+- clone repository
+- mvn clean install
+- docker-compose up
     
     
     
