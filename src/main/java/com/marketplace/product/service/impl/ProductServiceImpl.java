@@ -8,7 +8,6 @@ import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
-import com.marketplace.product.exception.ProductNotExistException;
 import com.marketplace.product.repositories.KeywordRepository;
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
@@ -39,13 +38,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private KeywordRepository keywordRepository;
 
-    public ResponseEntity<List<Product>> getProducts() {
+    public List<Product> getProducts() {
         //Iterable to List
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(products);
+        return products;
     }
 
     @Override
@@ -108,8 +107,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> getProductSku(String sku) {
-        return ResponseEntity.ok(productRepository.findBySku(sku));
+    public Product getProductSku(String sku) {
+        return productRepository.findBySku(sku);
     }
 
     @Override

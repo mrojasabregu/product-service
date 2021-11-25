@@ -1,6 +1,8 @@
 package com.marketplace.product.controller;
 
+import com.marketplace.product.controller.Response.ProductResponse;
 import com.marketplace.product.controller.request.*;
+import com.marketplace.product.domain.mapper.ProductResponseMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.exception.ProductNotExistException;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -31,6 +34,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    public ProductResponseMapper productResponseMapper;
 
     @PostMapping(path = "/product/{sku}/stock/cancelReserve")
     public String cancelProduct(@Validated @RequestBody List<CancelReserveProductRequest> cancelRequests) {
@@ -53,13 +59,15 @@ public class ProductController {
     }
 
     @GetMapping(path = "/product/{sku}")
-    public ResponseEntity<Product> retriveProduct(@PathVariable("sku") String sku) {
-        return productService.getProductSku(sku);
+    public ProductResponse retriveProduct(@PathVariable("sku") String sku) {
+        log.info("Product requested by sku: " + sku);
+        return productResponseMapper.apply(productService.getProductSku(sku)) ;
     }
 
     @PutMapping(path = "/product/{sku}")
     public ResponseEntity<Product> editProduct(@Validated @RequestBody PutProductSkuRequest productRequest, @PathVariable("sku") String sku) {
         if (sku != null) {
+            log.info("Product edited by sku: " + sku);
             return productService.putProductSku(productRequest, sku);
         } else {
             log.error("The product does NOT exist");
@@ -69,12 +77,14 @@ public class ProductController {
 
     @DeleteMapping(path = "/product/{sku}")
     public ResponseEntity<Product> deleteProduct(@PathVariable("sku") String sku) {
+        log.info("Product deleted by sku: " + sku);
         return productService.deleteProduct(sku);
     }
 
     @GetMapping(path = "/products")
-    public ResponseEntity<List<Product>> getProduct() {
-        return productService.getProducts();
+    public List<ProductResponse> getProduct() {
+        log.info("All products");
+        return productService.getProducts().stream().map(product -> productResponseMapper.apply(product)).collect(Collectors.toList());
     }
 
     @PostMapping(path = "/product")
