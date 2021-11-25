@@ -1,6 +1,6 @@
 package com.marketplace.product.controller;
 
-import com.marketplace.product.controller.Response.ProductResponse;
+import com.marketplace.product.controller.response.ProductResponse;
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.ProductResponseMapper;
 import com.marketplace.product.domain.model.Product;

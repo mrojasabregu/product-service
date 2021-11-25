@@ -1,4 +1,4 @@
-package com.marketplace.product.controller.Response;
+package com.marketplace.product.controller.response;
 
 import com.marketplace.product.domain.model.Keyword;
 import lombok.AllArgsConstructor;
@@ -24,5 +24,5 @@ public class ProductResponse {
     private Double weight;
     private String category;
     private String brand;
-    List<Keyword> keywords = new ArrayList<>();
+    private List<Keyword> keywords;
 }

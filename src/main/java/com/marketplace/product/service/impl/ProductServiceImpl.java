@@ -75,7 +75,6 @@ public class ProductServiceImpl implements ProductService {
                     }
                 }
         );
-
         productRepository.saveAll(listProductSku);
         log.info(String.format("canceled %d product.", listProductSku.size()));
         return "Reservation cancellation made\n" +
@@ -119,6 +118,8 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku) {
         Product productSku = productRepository.findBySku(sku);
         Product product = putProductSkuMapper.apply(request);
+        product.setProductId(productSku.getProductId());
+        product.setKeywords(productSku.getKeywords());
 
         return ResponseEntity.ok(productRepository.save(product));
     }
