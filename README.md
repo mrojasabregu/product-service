@@ -1,7 +1,5 @@
 # product-service
 
-_Acá va un párrafo que describa lo que es el proyecto_
-
 ### connections
 
 - Ip : 34.134.13.53
