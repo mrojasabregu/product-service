@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BulkProductMapper bulkProductMapper;
 
-
+    @Override
     public List<Product> getProducts() {
         //Iterable to List
         List<Product> products = StreamSupport
@@ -54,10 +54,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void cancelReserve(List<CancelReserveProductRequest> cancelRequests) {
-
+    public String cancelReserve(List<CancelReserveProductRequest> cancelRequests) {
 
         List<Product> listProductSku = new ArrayList<>();
+        List<String> skusNotFound = new ArrayList<>();
+
         cancelRequests.forEach((product) -> {
                     if (productRepository.findBySku(product.getSku()) != null) {
                         Product productSku = productRepository.findBySku(product.getSku());
@@ -68,17 +69,20 @@ public class ProductServiceImpl implements ProductService {
 
                         listProductSku.add(productSku);
 
-
                     } else {
+                        skusNotFound.add(product.getSku());
                         log.info("next sku not found: " + product.getSku());
                     }
                 }
-
         );
 
         productRepository.saveAll(listProductSku);
         log.info(String.format("canceled %d product.", listProductSku.size()));
+        return "Reservation cancellation made\n" +
+                "Products have been entered: "+cancelRequests.size()+ " and canceled: "+listProductSku.size()+
+                "\nSkus Not found: "+skusNotFound;
     }
+
 
     @Override
     public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {

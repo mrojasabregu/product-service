@@ -42,8 +42,8 @@ public class ProductController {
     @PostMapping(path = "/product/stock/cancelReserve")
     public String cancelProduct(@Validated @RequestBody List<CancelReserveProductRequest> cancelRequests) {
         if (cancelRequests != null &&! cancelRequests.isEmpty ()) {
-            productService.cancelReserve(cancelRequests);
-            return "Reservation cancellation made";
+
+            return productService.cancelReserve(cancelRequests);
         } else {
             return REQUEST_NO_BODY;
         }
@@ -52,6 +52,7 @@ public class ProductController {
     @PostMapping(path = "/product/{sku}/stock/reserve")
     public ResponseEntity<List<Product>> reserveProduct(@Validated @RequestBody ReserveProductRequest reserveProductRequest, @PathVariable("sku") String sku) {
         if (sku != null) {
+            log.info("Product reserved by sku: " + sku);
             return productService.reserveProduct(reserveProductRequest, sku);
         } else {
             log.error("Product not found");
@@ -68,7 +69,7 @@ public class ProductController {
     @PutMapping(path = "/product/{sku}")
     public ResponseEntity<Product> editProduct(@Validated @RequestBody PutProductSkuRequest productRequest, @PathVariable("sku") String sku) {
         if (sku != null) {
-            log.info("Product edited by sku: " + sku);
+            log.info("Product updated by sku: " + sku);
             return productService.putProductSku(productRequest, sku);
         } else {
             log.error("The product does NOT exist");
@@ -84,7 +85,7 @@ public class ProductController {
 
     @GetMapping(path = "/products")
     public List<ProductResponse> getProduct() {
-        log.info("All products");
+        log.info("All products requested successfully");
         return productService.getProducts().stream().map(product -> productResponseMapper.apply(product)).collect(Collectors.toList());
     }
 
