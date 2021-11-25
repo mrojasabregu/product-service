@@ -8,6 +8,7 @@ import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
+
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +38,14 @@ public class ProductServiceImpl implements ProductService {
     private BulkProductMapper bulkProductMapper;
 
 
-    public ResponseEntity<List<Product>> getProducts() {
-
+    @Override
+    public List<Product> getProducts() {
+        //Iterable to List
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(products);
+        return products;
     }
 
     @Override
@@ -55,7 +57,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void cancelReserve(List<CancelReserveProductRequest> cancelRequests) {
 
-
         List<Product> listProductSku = new ArrayList<>();
         cancelRequests.forEach((product) -> {
                     if (productRepository.findBySku(product.getSku()) != null) {
@@ -66,15 +67,11 @@ public class ProductServiceImpl implements ProductService {
                         productSku.setUnitAvailable(actually + cancel);
 
                         listProductSku.add(productSku);
-
-
                     } else {
                         log.info("next sku not found: " + product.getSku());
                     }
                 }
-
         );
-
         productRepository.saveAll(listProductSku);
         log.info(String.format("canceled %d product.", listProductSku.size()));
     }
@@ -106,14 +103,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> getProductSku(String sku) {
-        return ResponseEntity.ok(productRepository.findBySku(sku));
+    public Product getProductSku(String sku) {
+        return productRepository.findBySku(sku);
     }
 
     @Override
     public ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku) {
         Product productSku = productRepository.findBySku(sku);
         Product product = putProductSkuMapper.apply(request);
+        product.setProductId(productSku.getProductId());
+        product.setKeywords(productSku.getKeywords());
 
         return ResponseEntity.ok(productRepository.save(product));
     }

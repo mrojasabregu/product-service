@@ -7,10 +7,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.http.ResponseEntity;
 
 
@@ -19,11 +22,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
 public class ProductServiceImplTest {
@@ -88,10 +96,14 @@ public class ProductServiceImplTest {
         productList.add(productTest2);
 
         //When
-        when(productService.getProducts()).thenReturn(ResponseEntity.ok(productList));
+        when(productService.getProducts()).thenReturn(productList);
 
         //Then
-        assertEquals(ResponseEntity.ok(productList),productService.getProducts());
+        assertEquals(productList,productService.getProducts());
         assertNotNull(productService.getProducts());
+
+
+
+
     }
 }

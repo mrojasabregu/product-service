@@ -13,13 +13,13 @@ public interface ProductService {
 
     void cancelReserve(List<CancelReserveProductRequest> cancelReserveProductRequest);
 
-    ResponseEntity<List<Product>> getProducts();
+    List<Product> getProducts();
 
     ResponseEntity<Product> createProduct(PostProductRequest postProductRequest);
 
     ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest productRequest, String sku);
 
-    ResponseEntity<Product> getProductSku(String sku);
+    Product getProductSku(String sku);
 
     ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku);
 
