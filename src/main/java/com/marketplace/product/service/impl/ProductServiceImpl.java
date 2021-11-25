@@ -37,11 +37,8 @@ public class ProductServiceImpl implements ProductService {
     private BulkProductMapper bulkProductMapper;
 
 
-    @Autowired
-    private KeywordRepository keywordRepository;
-
     public ResponseEntity<List<Product>> getProducts() {
-        //Iterable to List
+
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
