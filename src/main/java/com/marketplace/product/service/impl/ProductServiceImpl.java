@@ -2,13 +2,11 @@ package com.marketplace.product.service.impl;
 
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
-
 import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.InventoryNotNegativeException;
-
 import com.marketplace.product.repositories.ProductRepository;
 import com.marketplace.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +34,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private BulkProductMapper bulkProductMapper;
-
 
     @Override
     public List<Product> getProducts() {

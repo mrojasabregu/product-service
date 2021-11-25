@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,11 +52,11 @@ public class ProductServiceImplTest {
         MockitoAnnotations.openMocks(this);
 
         productTest1=Product.builder()
-                .productId(1L)
+                .productId("1")
                 .sku("ASD123")
                 .name("bicicleta")
                 .description("descripcion")
-                .price(2000.00)
+                .price(new BigDecimal("2000.0"))
                 .imgUrl("/url")
                 .unitAvailable(10)
                 .weight(20.0)
@@ -66,11 +67,11 @@ public class ProductServiceImplTest {
                 .build();
 
         productTest2=Product.builder()
-                .productId(2L)
+                .productId("2")
                 .sku("ASDASD")
                 .name("remera")
                 .description("descripcion")
-                .price(200.00)
+                .price(new BigDecimal("1500.0"))
                 .imgUrl("/url")
                 .unitAvailable(15)
                 .weight(2.0)
@@ -101,9 +102,14 @@ public class ProductServiceImplTest {
         //Then
         assertEquals(productList,productService.getProducts());
         assertNotNull(productService.getProducts());
+    }
 
+    @Test
+    public  void createProductTest(){
+        //Given
 
+        //When
 
-
+        //Then
     }
 }

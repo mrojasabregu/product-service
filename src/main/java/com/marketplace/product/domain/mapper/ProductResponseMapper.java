@@ -25,7 +25,4 @@ public class ProductResponseMapper implements Function<Product, ProductResponse 
                 .weight(product.getWeight())
                 .build();
     }
-
-
-
 }

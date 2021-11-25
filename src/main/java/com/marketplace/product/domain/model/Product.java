@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +17,20 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Product")
-
 public class Product {
 
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PRODUCT_ID")
-    private Long productId;
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    //@Column(name = "PRODUCT_ID")
+    //private Long productId;
+    private String productId;
     private String sku;
     private String name;
     private String description;
-    private Double price;
+    private BigDecimal price;
     private String imgUrl;
     private Integer unitAvailable;
     private Double weight;

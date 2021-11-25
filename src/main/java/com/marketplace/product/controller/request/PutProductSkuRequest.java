@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
@@ -14,17 +15,17 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class PutProductSkuRequest {
-    Long productId;
+
+    String productId;
     @NotBlank(message = "El campo sku no puede ser null o vacio.")
     String sku;
     String name;
     String description;
     List<Keyword> keywords;
-    Double price;
+    BigDecimal price;
     String imgUrl;
     Integer unitAvailable;
     Double weight;
     String category;
     String brand;
-
 }
