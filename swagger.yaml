@@ -273,10 +273,9 @@ definitions:
       keywords:
         type: "array"
         items:
-          type: string
+          type: "string"
       price:
         type: "number"
-        format: "doble"
         example: 3000
       imgUrl:
         type: "string"
@@ -304,20 +303,20 @@ definitions:
       - "name"
     properties: 
       keywordId:
-        type: "number"
-        example: 1
+        type: "string"
+        example: "GEV5343FDG"
       name:
         type: "array"
         example: "computadora,hp,3GB"
         items:
-          type: string
+          type: "string"
         
   
   ProductResponse:
     type: "object"
     properties: 
       productId:
-        type: "number"
+        type: "string"
       sku:
         type: "string"
       name:
@@ -330,7 +329,6 @@ definitions:
           $ref: "#/definitions/KeywordResponse"
       price:
         type: "number"
-        format: "doble"
       imgUrl:
         type: "string"
       unitAvailable:
