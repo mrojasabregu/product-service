@@ -154,7 +154,6 @@ public class ProductServiceImplTest {
         String sku=productTest1.getSku();
         Product mockProduct= productRepository.findBySku(sku);
         //When
-
         when(productService.deleteProduct(sku)).thenReturn(new ResponseEntity(HttpStatus.ACCEPTED));
         //Then
         assertNull(productRepository.findBySku(sku));
