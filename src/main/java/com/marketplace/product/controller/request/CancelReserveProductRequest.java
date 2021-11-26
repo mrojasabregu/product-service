@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class CancelReserveProductRequest {
-    //@NotBlank(message = "El campo sku no puede ser null o vacio.")
+
     String sku;
     @NotNull(message = "El campo amountToCancel no puede ser null o vacio.")
     Integer amountToCancel;

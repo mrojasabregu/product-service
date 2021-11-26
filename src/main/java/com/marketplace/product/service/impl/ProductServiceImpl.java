@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProducts() {
-        //Iterable to List
+
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
@@ -76,10 +76,9 @@ public class ProductServiceImpl implements ProductService {
         productRepository.saveAll(listProductSku);
         log.info(String.format("canceled %d product.", listProductSku.size()));
         return "Reservation cancellation made\n" +
-                "Products have been entered: "+cancelRequests.size()+ " and canceled: "+listProductSku.size()+
-                "\nSkus Not found: "+skusNotFound;
+                "Products have been entered: " + cancelRequests.size() + " and canceled: " + listProductSku.size() +
+                "\nSkus Not found: " + skusNotFound;
     }
-
 
     @Override
     public ResponseEntity<List<Product>> reserveProduct(ReserveProductRequest reserveProductRequest, String sku) {

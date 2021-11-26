@@ -1,6 +1,8 @@
 package com.marketplace.product.service.impl;
 
+import com.marketplace.product.controller.request.CancelReserveProductRequest;
 import com.marketplace.product.controller.request.PostProductRequest;
+import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.domain.mapper.PostProductMapper;
 import com.marketplace.product.domain.model.Keyword;
 import com.marketplace.product.domain.model.Product;
@@ -48,8 +50,10 @@ public class ProductServiceImplTest {
     @Mock
     private ProductServiceImpl productService;
 
+    @Mock
+    private PutProductSkuRequest putProductSkuRequest;
 
-    @Autowired
+    @Mock
     private PostProductMapper postProductMapper;
 
     private Product productTest1;
@@ -114,26 +118,16 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public  void createProductTest(){
+    public  void createProductTest(){//CONSULTAR
         //Given
-        PostProductRequest postProductRequest=new PostProductRequest();
-        postProductRequest.setSku("skuTest");
-        postProductRequest.setName("nameTest");
-        postProductRequest.setDescription("descTest");
-        postProductRequest.setKeywords(null);
-        postProductRequest.setPrice(new BigDecimal("1000.0"));
-        postProductRequest.setImgUrl("/url");
-        postProductRequest.setUnitAvailable(10);
-        postProductRequest.setWeight(10.0);
-        postProductRequest.setCategory("catTest");
-        postProductRequest.setBrand("brandTest");
 
-        Product mockProduct = postProductMapper.apply(postProductRequest);
+        Product mockProduct = postProductMapper.apply(any(PostProductRequest.class));
         //productRepository.save(mockProduct);
 
         //When
         when(productService.createProduct(any())).thenReturn(ResponseEntity.ok(productRepository.save(mockProduct)));
         //productRepository.save(productTest1);
+
         //Then
         //assertEquals(productRepository.findBySku(productTest1.getSku()),productTest1);
     }
@@ -149,7 +143,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    public void  deleteProductTest(){
+    public void deleteProductTest(){
         //Give
         String sku=productTest1.getSku();
         Product mockProduct= productRepository.findBySku(sku);
@@ -157,6 +151,28 @@ public class ProductServiceImplTest {
         when(productService.deleteProduct(sku)).thenReturn(new ResponseEntity(HttpStatus.ACCEPTED));
         //Then
         assertNull(productRepository.findBySku(sku));
+    }
+
+    @Test
+    public void putProductSkuTest(){//CONSULTAR
+        //Give
+        String sku=productTest1.getSku();
+
+        //When
+        when(productService.putProductSku(putProductSkuRequest,sku))
+                .thenReturn(ResponseEntity.ok(productRepository.save(any(Product.class))));
+        //Then
+
+    }
+
+    @Test
+    public void cancelReserveTest(){//CONSULTAR
+        //Give
+
+        //When
+        when(productService.cancelReserve(anyList())).thenReturn(anyString());
+        //Then
+
     }
 
 }
