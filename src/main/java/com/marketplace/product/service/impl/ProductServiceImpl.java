@@ -2,6 +2,7 @@ package com.marketplace.product.service.impl;
 
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.*;
+
 import com.marketplace.product.controller.request.PutProductSkuRequest;
 import com.marketplace.product.controller.request.ReserveProductRequest;
 import com.marketplace.product.domain.mapper.PutProductSkuMapper;
@@ -37,11 +38,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProducts() {
-
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
-
         return products;
     }
 
@@ -56,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> listProductSku = new ArrayList<>();
         List<String> skusNotFound = new ArrayList<>();
+
 
         cancelRequests.forEach((product) -> {
                     if (productRepository.findBySku(product.getSku()) != null) {
@@ -109,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductSku(String sku) {
         return productRepository.findBySku(sku);
+
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.marketplace.product.controller;
 import com.marketplace.product.controller.response.ProductResponse;
 import com.marketplace.product.controller.request.*;
 import com.marketplace.product.domain.mapper.ProductResponseMapper;
+
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.exception.ProductExistException;
 import com.marketplace.product.exception.ProductNotExistException;
@@ -44,6 +45,7 @@ public class ProductController {
         if (cancelRequests != null &&! cancelRequests.isEmpty ()) {
 
             return productService.cancelReserve(cancelRequests);
+
         } else {
             return REQUEST_NO_BODY;
         }
@@ -61,15 +63,18 @@ public class ProductController {
     }
 
     @GetMapping(path = "/product/{sku}")
+
     public ProductResponse retriveProduct(@PathVariable("sku") String sku) {
         log.info("Product requested by sku: " + sku);
         return productResponseMapper.apply(productService.getProductSku(sku)) ;
+
     }
 
     @PutMapping(path = "/product/{sku}")
     public ResponseEntity<Product> editProduct(@Validated @RequestBody PutProductSkuRequest productRequest, @PathVariable("sku") String sku) {
         if (sku != null) {
             log.info("Product updated by sku: " + sku);
+
             return productService.putProductSku(productRequest, sku);
         } else {
             log.error("The product does NOT exist");
@@ -80,6 +85,7 @@ public class ProductController {
     @DeleteMapping(path = "/product/{sku}")
     public ResponseEntity<Product> deleteProduct(@PathVariable("sku") String sku) {
         log.info("Product deleted by sku: " + sku);
+
         return productService.deleteProduct(sku);
     }
 
