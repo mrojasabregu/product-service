@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+
 import java.util.List;
 
 @Builder
@@ -23,7 +25,7 @@ public class BulkProductRequest {
     @NotNull(message = "The field keywords cannot be empty or null")
     List<Keyword> keywords;
     @NotNull(message = "The field price cannot be empty or null")
-    Double price;
+    BigDecimal price;
     String imgUrl;
     @NotNull(message = "The field unitAvailable cannot be empty or null")
     Integer unitAvailable;

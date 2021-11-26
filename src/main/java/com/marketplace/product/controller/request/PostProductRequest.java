@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+
 import java.util.List;
 
 @Builder
@@ -25,7 +27,7 @@ public class PostProductRequest {
     @NotNull(message = "El campo keywords no puede ser null o vacio.")
     List<Keyword> keywords;
     @NotNull(message = "El campo price no puede ser null o vacio.")
-    Double price;
+    BigDecimal price;
     String imgUrl;
     @NotNull(message = "El campo unitAvailable no puede ser null o vacio.")
     Integer unitAvailable;

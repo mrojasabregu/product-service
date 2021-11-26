@@ -12,6 +12,7 @@ public class PostProductMapper implements Function<PostProductRequest, Product> 
     @Override
     public Product apply(PostProductRequest postProductRequest) {
         return Product.builder()
+                .sku(postProductRequest.getSku())
                 .name(postProductRequest.getName())
                 .brand(postProductRequest.getBrand())
                 .category(postProductRequest.getCategory())
@@ -19,7 +20,6 @@ public class PostProductMapper implements Function<PostProductRequest, Product> 
                 .imgUrl(postProductRequest.getImgUrl())
                 .keywords(postProductRequest.getKeywords())
                 .price(postProductRequest.getPrice())
-                .sku(postProductRequest.getSku())
                 .unitAvailable(postProductRequest.getUnitAvailable())
                 .weight(postProductRequest.getWeight())
                 .build();

@@ -36,17 +36,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private BulkProductMapper bulkProductMapper;
 
-
-    @Autowired
-    private KeywordRepository keywordRepository;
-
-    public ResponseEntity<List<Product>> getProducts() {
-        //Iterable to List
+    @Override
+    public List<Product> getProducts() {
         List<Product> products = StreamSupport
                 .stream(productRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
-
-        return ResponseEntity.ok(products);
+        return products;
     }
 
     @Override
@@ -56,10 +51,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void cancelReserve(List<CancelReserveProductRequest> cancelRequests) {
-
+    public String cancelReserve(List<CancelReserveProductRequest> cancelRequests) {
 
         List<Product> listProductSku = new ArrayList<>();
+        List<String> skusNotFound = new ArrayList<>();
+
+
         cancelRequests.forEach((product) -> {
                     if (productRepository.findBySku(product.getSku()) != null) {
                         Product productSku = productRepository.findBySku(product.getSku());
@@ -70,16 +67,17 @@ public class ProductServiceImpl implements ProductService {
 
                         listProductSku.add(productSku);
 
-
                     } else {
+                        skusNotFound.add(product.getSku());
                         log.info("next sku not found: " + product.getSku());
                     }
                 }
-
         );
-
         productRepository.saveAll(listProductSku);
         log.info(String.format("canceled %d product.", listProductSku.size()));
+        return "Reservation cancellation made\n" +
+                "Products have been entered: " + cancelRequests.size() + " and canceled: " + listProductSku.size() +
+                "\nSkus Not found: " + skusNotFound;
     }
 
     @Override
@@ -109,14 +107,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<Product> getProductSku(String sku) {
-        return ResponseEntity.ok(productRepository.findBySku(sku));
+    public Product getProductSku(String sku) {
+        return productRepository.findBySku(sku);
+
     }
 
     @Override
     public ResponseEntity<Product> putProductSku(PutProductSkuRequest request, String sku) {
         Product productSku = productRepository.findBySku(sku);
         Product product = putProductSkuMapper.apply(request);
+        product.setProductId(productSku.getProductId());
+        product.setKeywords(productSku.getKeywords());
 
         return ResponseEntity.ok(productRepository.save(product));
     }

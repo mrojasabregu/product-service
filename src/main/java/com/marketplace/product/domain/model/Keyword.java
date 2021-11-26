@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,17 +18,11 @@ import java.util.List;
 public class Keyword {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "KEYWORD_ID")
-    private Long keywordId;
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String keywordId;
     @Column(name = "NAME")
     @ElementCollection
     private List<String> name;
-
-    /*
-    @ManyToMany(mappedBy = "keywords")
-    @JsonBackReference("keywords")
-    List<Product> products =new ArrayList<>();
-     */
 
 }
