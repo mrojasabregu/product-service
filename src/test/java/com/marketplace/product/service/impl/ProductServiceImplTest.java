@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
@@ -140,9 +141,23 @@ public class ProductServiceImplTest {
     @Test
     public void getProductSkuTest(){
         //Give
-
+        Product mockProduct= productRepository.findBySku(productTest1.getSku());
         //When
-        
+        when(productService.getProductSku(productTest1.getSku())).thenReturn(mockProduct);
         //Then
+        assertEquals(mockProduct,productRepository.findBySku(productTest1.getSku()));
     }
+
+    @Test
+    public void  deleteProductTest(){
+        //Give
+        String sku=productTest1.getSku();
+        Product mockProduct= productRepository.findBySku(sku);
+        //When
+
+        when(productService.deleteProduct(sku)).thenReturn(new ResponseEntity(HttpStatus.ACCEPTED));
+        //Then
+        assertNull(productRepository.findBySku(sku));
+    }
+
 }
