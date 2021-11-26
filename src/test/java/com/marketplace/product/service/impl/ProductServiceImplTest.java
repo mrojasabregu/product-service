@@ -1,5 +1,8 @@
 package com.marketplace.product.service.impl;
 
+import com.marketplace.product.controller.request.PostProductRequest;
+import com.marketplace.product.domain.mapper.PostProductMapper;
+import com.marketplace.product.domain.model.Keyword;
 import com.marketplace.product.domain.model.Product;
 import com.marketplace.product.repositories.ProductRepository;
 import org.assertj.core.api.Assertions;
@@ -11,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -42,6 +46,10 @@ public class ProductServiceImplTest {
 
     @Mock
     private ProductServiceImpl productService;
+
+
+    @Autowired
+    private PostProductMapper postProductMapper;
 
     private Product productTest1;
 
@@ -107,9 +115,34 @@ public class ProductServiceImplTest {
     @Test
     public  void createProductTest(){
         //Given
+        PostProductRequest postProductRequest=new PostProductRequest();
+        postProductRequest.setSku("skuTest");
+        postProductRequest.setName("nameTest");
+        postProductRequest.setDescription("descTest");
+        postProductRequest.setKeywords(null);
+        postProductRequest.setPrice(new BigDecimal("1000.0"));
+        postProductRequest.setImgUrl("/url");
+        postProductRequest.setUnitAvailable(10);
+        postProductRequest.setWeight(10.0);
+        postProductRequest.setCategory("catTest");
+        postProductRequest.setBrand("brandTest");
+
+        Product mockProduct = postProductMapper.apply(postProductRequest);
+        //productRepository.save(mockProduct);
 
         //When
+        when(productService.createProduct(any())).thenReturn(ResponseEntity.ok(productRepository.save(mockProduct)));
+        //productRepository.save(productTest1);
+        //Then
+        //assertEquals(productRepository.findBySku(productTest1.getSku()),productTest1);
+    }
 
+    @Test
+    public void getProductSkuTest(){
+        //Give
+
+        //When
+        
         //Then
     }
 }

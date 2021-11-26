@@ -19,13 +19,9 @@ import java.util.List;
 @Table(name = "Product")
 public class Product {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    //@Column(name = "PRODUCT_ID")
-    //private Long productId;
     private String productId;
     private String sku;
     private String name;
