@@ -31,6 +31,10 @@
 - clone repository
 - mvn clean install
 - docker-compose up
+
+### Docker Compose Command
+
+- docker-compose up
     
     
     
